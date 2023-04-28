@@ -35,17 +35,16 @@ const NavLink = ({ children }) => (
   //   {children}
   // </Link>
   <Box
-    fontSize={"md"}
+    fontSize={'md'}
     px={2}
     py={1}
     rounded={'md'}
-  
     _hover={{
       textDecoration: 'none',
       bg: useColorModeValue('gray.200', 'gray.700'),
     }}
   >
-    <Link  to={'/' + children}> {children}</Link>
+    <Link to={'/' + children}> {children}</Link>
   </Box>
 );
 
@@ -55,23 +54,22 @@ export default function Nav() {
   return (
     <>
       <Box
-        backdropFilter="auto"
-        backdropBlur="8px"
         bg={useColorModeValue('gray.100', 'gray.900')}
         px={4}
-        h={"9vh"}
-        alignItems={"center"} 
-      
+        h={'7vh'}
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
       >
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+        <Flex w={"100%"} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
-            size={'md'}
+            size={'sm'}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label={'Open Menu'}
             display={{ md: 'none' }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <HStack spacing={8} alignItems={'center'}>
+          <HStack spacing={8} align={'center'}>
             <Box>Logo</Box>
             <HStack
               as={'nav'}
@@ -111,18 +109,18 @@ export default function Nav() {
           </Flex>
         </Flex>
 
-        {/* {isOpen ? (
-          <Box pb={4}  display={{ md: 'none' }}>
+        {isOpen ? (
+          <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
               {Links.map(link => (
                 <NavLink key={link}>{link}</NavLink>
               ))}
             </Stack>
           </Box>
-        ) : null} */}
+        ) : null}
       </Box>
 
-      <Box p={4} w={"100%"} h={"91vh"} >
+      <Box p={3} w={'100%'} h={'93vh'}>
         <Outlet></Outlet>
       </Box>
     </>
