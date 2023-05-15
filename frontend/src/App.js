@@ -3,6 +3,8 @@ import Nav from './componentes/nav';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Productos } from './paginas/productos';
 import { Usuarios } from './paginas/usuarios';
+import { Clientes } from './paginas/clientes';
+
 
 const router = createBrowserRouter([
   {
@@ -12,6 +14,10 @@ const router = createBrowserRouter([
       {
         path: '/productos',
         element: <Productos />,
+      },
+      {
+        path: '/Clientes',
+        element: <Clientes />,
       },
       {
         path: '/Usuarios',

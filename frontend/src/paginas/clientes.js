@@ -15,6 +15,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
+import ModalElimnar from '../componentes/modal/modalEliminar';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -23,10 +24,10 @@ import {
 } from '@chakra-ui/icons';
 import { useContext, useState } from 'react';
 import { ContextModal } from '../context/contextModal';
+import { ModalAdd } from '../componentes/modal/modalAddCliente';
+import { ModalEditarCliente } from '../componentes/modal/modalEditarCliente';
 import { paginacion } from '../helpers/paginacion';
-import { ModalAddUsuario } from '../componentes/modal/modalAddUsuario';
-import {ModalEditarUsuario} from '../componentes/modal/modalEditarUsuario';
-import ModalElimnar from '../componentes/modal/modalEliminar';
+//import { paginacion } from '../helpers/paginacion';
 
 function ListaUsuarios() {
   const producto = [
@@ -34,18 +35,15 @@ function ListaUsuarios() {
       id: '1',
       nombres: 'nada por ahora',
       apellido: '2444',
-      usuario: "gino",
-      cargo:"vendedor",
-      estado:"Activo",
       email: '3',
       telefono: '0.2',
-      password: "1234"
     },
+    
   ];
 
   return producto;
 }
-export function Usuarios() {
+export function Clientes() {
   const { onOpen, modalEditar } = useContext(ContextModal);
   const [paginaActual, setPaginaActual] = useState(0);
   const CORTE = 9;
@@ -73,15 +71,15 @@ export function Usuarios() {
 
   return (
     <>
-
-      <ModalEditarUsuario></ModalEditarUsuario>
-      <ModalAddUsuario
+      <ModalEditarCliente ></ModalEditarCliente>
+      <ModalElimnar></ModalElimnar>
+      <ModalAdd
         onOpen={modalOnOpen}
         onClose={modalOnClose}
         isOpen={modalIsOpen}
       >
-      </ModalAddUsuario>
-      <ModalElimnar></ModalElimnar>
+        s
+      </ModalAdd>
       <Box h={'95%'}>
         <Box h={'100%'}>
           <Box
@@ -95,10 +93,10 @@ export function Usuarios() {
             <Button
               size={'sm'}
               marginLeft={4}
-              justifyContent={'center'}
+              justifyContent={'left'}
               onClick={modalOnOpen}
             >
-              Nuevo Usuario
+              + nuevo cliente
             </Button>
 
             <Flex
@@ -120,46 +118,44 @@ export function Usuarios() {
                   <Tr>
                     <Th>Id</Th>
                     <Th>Nombres</Th>
-                    <Th> Cargo</Th>
+                    <Th> Apellido</Th>
                     <Th> Email</Th>
                     <Th> Telefono</Th>
-                    <Th> Estado</Th>
+                    <Th> Ciudad</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {paginacion(ListaUsuarios, paginaActual, CORTE).map(
-                    (ele, id) => {
-                      return (
-                        <Tr key={id}>
-                          <Td>{id}</Td>
-                          <Td whiteSpace="normal" maxWidth="300px">
-                            ssssssssssssssssss
-                          </Td>
-                          <Td>{ele.codigo}</Td>
-                          <Td>{ele.iva}</Td>
-                          <Td>{ele.iva}</Td>
-                          <Td>
-                            <Flex gap={3} justify={'right'}>
-                              <IconButton
-                                size={'xs'}
-                                aria-label="Search database"
-                                colorScheme="green"
-                                icon={<EditIcon />}
-                                onClick={() => handleEditar(ele)}
-                              />
-                              <IconButton
-                                size={'xs'}
-                                aria-label="Search database"
-                                colorScheme="red"
-                                icon={<DeleteIcon />}
-                                onClick={onOpen}
-                              ></IconButton>
-                            </Flex>
-                          </Td>
-                        </Tr>
-                      );
-                    }
-                  )}
+                  {paginacion(ListaUsuarios, paginaActual, CORTE).map((ele, id) => {
+                    return (
+                      <Tr key={id}>
+                        <Td>{id}</Td>
+                        <Td whiteSpace="normal" maxWidth="300px">
+                          ssssssssssssssssss
+                        </Td>
+                        <Td>{ele.codigo}</Td>
+                        <Td>{ele.iva}</Td>
+                        <Td>{ele.iva}</Td>
+                        <Td>
+                          <Flex gap={3} justify={'right'}>
+                            <IconButton
+                              size={'xs'}
+                              aria-label="Search database"
+                              colorScheme="green"
+                              icon={<EditIcon />}
+                              onClick={() => handleEditar(ele)}
+                            />
+                            <IconButton
+                              size={'xs'}
+                              aria-label="Search database"
+                              colorScheme="red"
+                              icon={<DeleteIcon />}
+                              onClick={onOpen}
+                            ></IconButton>
+                          </Flex>
+                        </Td>
+                      </Tr>
+                    );
+                  })}
                 </Tbody>
               </Table>
             </TableContainer>

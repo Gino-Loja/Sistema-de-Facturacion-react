@@ -13,11 +13,14 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
-  Container,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import { Link, Outlet } from 'react-router-dom';
+import { useState } from 'react';
+
+import { ContextModalProvider } from '../context/contextModal';
+import React from 'react';
 
 const Links = [
   'Dashboard',
@@ -28,29 +31,38 @@ const Links = [
   'Usuarios',
 ];
 
-const NavLink = ({ children }) => (
-  // <Link
+function NavLink({ children, botonPresionado, activado }) {
+  const colorNull = useColorModeValue('gray.400', 'gray.700');
 
-  // >
-  //   {children}
-  // </Link>
-  <Box
-    fontSize={'md'}
-    px={2}
-    py={1}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
-    }}
-  >
-    <Link to={'/' + children}> {children}</Link>
-  </Box>
-);
+  return (
+    <Box
+      _hover={{
+        textDecoration: 'none',
+        bg: useColorModeValue('gray.200', 'gray.700'),
+      }}
+      fontSize={'md'}
+      px={2}
+      py={1}
+      rounded={'md'}
+     
+      bg={
+        activado === children
+          ? colorNull
+          : ''
+      }
+    >
+      <Link  onClick={() => botonPresionado(children)} to={'/' + children}> {children}</Link>
+    </Box>
+  );
+}
 
 export default function Nav() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const [activeTab, setActiveTab] = useState('');
+  const botonPresionado = children => {
+    setActiveTab(children);
+  
+  };
   return (
     <>
       <Box
@@ -61,7 +73,7 @@ export default function Nav() {
         alignItems="center"
         justifyContent="space-between"
       >
-        <Flex w={"100%"} alignItems={'center'} justifyContent={'space-between'}>
+        <Flex w={'100%'} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'sm'}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -77,13 +89,18 @@ export default function Nav() {
               display={{ base: 'none', md: 'flex' }}
             >
               {Links.map(link => (
-                <NavLink key={link}>{link}</NavLink>
+                <NavLink
+                  key={link}
+                  activado={activeTab}
+                  botonPresionado={setActiveTab}
+                >
+                  {link}
+                </NavLink>
               ))}
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
             <ColorModeSwitcher colorScheme={'teal'} size={'sm'} mr={4} />
-
             <Menu>
               <MenuButton
                 as={Button}
@@ -119,10 +136,11 @@ export default function Nav() {
           </Box>
         ) : null}
       </Box>
-
-      <Box p={3} w={'100%'} h={'93vh'}>
-        <Outlet></Outlet>
-      </Box>
+      <ContextModalProvider>
+        <Box p={3} w={'100%'} h={'93vh'}>
+          <Outlet></Outlet>
+        </Box>
+      </ContextModalProvider>
     </>
   );
 }
