@@ -24,7 +24,7 @@ export function ModalAddProducto({ onOpen, isOpen, onClose }) {
       <Modal size={'xs'} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create your account</ModalHeader>
+          <ModalHeader>Ingresa un Producto</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={2}>
             <Tabs variant="enclosed" size={'sm'}>

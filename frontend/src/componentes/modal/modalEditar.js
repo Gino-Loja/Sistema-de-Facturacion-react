@@ -25,10 +25,7 @@ export default function ModelEdit(props) {
         size={'sm'}
       >
         <ModalOverlay
-          bg="none"
-          backdropFilter="auto"
-          backdropInvert="80%"
-          backdropBlur="2px"
+
         />
         <ModalContent>
           <ModalHeader> Editar Productos</ModalHeader>

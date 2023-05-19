@@ -44,14 +44,19 @@ function NavLink({ children, botonPresionado, activado }) {
       px={2}
       py={1}
       rounded={'md'}
-     
-      bg={
-        activado === children
-          ? colorNull
-          : ''
-      }
+      bg={activado === children ? colorNull : ''}
     >
-      <Link  onClick={() => botonPresionado(children)} to={'/' + children}> {children}</Link>
+      <Link
+        onClick={() => botonPresionado(children)}
+        to={
+          children === 'Nueva Factura'
+            ? '/' + 'NuevaFactura'
+            : '/' + children
+        }
+      >
+        {' '}
+        {children}
+      </Link>
     </Box>
   );
 }
@@ -61,7 +66,6 @@ export default function Nav() {
   const [activeTab, setActiveTab] = useState('');
   const botonPresionado = children => {
     setActiveTab(children);
-  
   };
   return (
     <>
@@ -92,7 +96,7 @@ export default function Nav() {
                 <NavLink
                   key={link}
                   activado={activeTab}
-                  botonPresionado={setActiveTab}
+                  botonPresionado={botonPresionado}
                 >
                   {link}
                 </NavLink>
@@ -137,7 +141,12 @@ export default function Nav() {
         ) : null}
       </Box>
       <ContextModalProvider>
-        <Box p={3} w={'100%'} h={'93vh'}>
+        <Box p={3}  w={[
+          '100%', // 0-30em
+          '100%', // 30em-48em
+          '100%', // 48em-62em
+          '100%', // 62em+
+        ]} h={'93vh'}>
           <Outlet></Outlet>
         </Box>
       </ContextModalProvider>

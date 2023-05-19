@@ -13,8 +13,12 @@ import {
   Tbody,
   IconButton,
   Tooltip,
-  Spacer,
-  useDisclosure
+  useDisclosure,
+  Tabs,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
 } from '@chakra-ui/react';
 import ModalEditar from '../componentes/modal/modalEditar';
 import ModalElimnar from '../componentes/modal/modalEliminar';
@@ -32,6 +36,48 @@ import { ModalAddProducto } from '../componentes/modal/modalAddProducto';
 function ListaProductos() {
   const producto = [
     {
+      codigo: '20',
+      descripcion: 'nada por ahora',
+      precio: '2222222222',
+      existencia: '3',
+      iva: '0.2',
+    },
+    {
+      codigo: '20',
+      descripcion: 'nada por ahora',
+      precio: '233333333333',
+      existencia: '3',
+      iva: '0.2',
+    },
+    {
+      codigo: '200000000000',
+      descripcion: 'nada por ahora',
+      precio: '1',
+      existencia: '3',
+      iva: '0.2',
+    },
+    {
+      codigo: '20',
+      descripcion: 'nada por ahora',
+      precio: '2222222222',
+      existencia: '3',
+      iva: '0.2',
+    },
+    {
+      codigo: '20',
+      descripcion: 'nada por ahora',
+      precio: '2222222222',
+      existencia: '3',
+      iva: '0.2',
+    },
+    {
+      codigo: '20',
+      descripcion: 'nada por ahora',
+      precio: '233333333333',
+      existencia: '3',
+      iva: '0.2',
+    },
+    {
       codigo: '200000000000',
       descripcion: 'nada por ahora',
       precio: '1',
@@ -51,47 +97,8 @@ function ListaProductos() {
       precio: '233333333333',
       existencia: '3',
       iva: '0.2',
-    },{
-      codigo: '200000000000',
-      descripcion: 'nada por ahora',
-      precio: '1',
-      existencia: '3',
-      iva: '0.2',
     },
     {
-      codigo: '20',
-      descripcion: 'nada por ahora',
-      precio: '2222222222',
-      existencia: '3',
-      iva: '0.2',
-    },
-    {
-      codigo: '20',
-      descripcion: 'nada por ahora',
-      precio: '233333333333',
-      existencia: '3',
-      iva: '0.2',
-    },{
-      codigo: '200000000000',
-      descripcion: 'nada por ahora',
-      precio: '1',
-      existencia: '3',
-      iva: '0.2',
-    },
-    {
-      codigo: '20',
-      descripcion: 'nada por ahora',
-      precio: '2222222222',
-      existencia: '3',
-      iva: '0.2',
-    },
-    {
-      codigo: '20',
-      descripcion: 'nada por ahora',
-      precio: '233333333333',
-      existencia: '3',
-      iva: '0.2',
-    },{
       codigo: '200000000000',
       descripcion: 'nada por ahora',
       precio: '1',
@@ -123,8 +130,11 @@ export function Productos() {
     onClose: modalOnCloseUser,
   } = useDisclosure();
   const { onOpen, modalEditar } = useContext(ContextModal);
-  const CORTE = 8;
+  const CORTE = 10;
+  const CORTE_CATEGORIA = 8;
   const [paginaActual, setPaginaActual] = useState(0);
+  const [paginaActualCategoria, setPaginaActualCategoria] = useState(0);
+
   const paginaSiguiente = () => {
     if (paginaActual + CORTE < ListaProductos().length) {
       setPaginaActual(paginaActual + CORTE);
@@ -133,6 +143,16 @@ export function Productos() {
   const paginaAnterior = () => {
     if (paginaActual > 0) {
       setPaginaActual(paginaActual - CORTE);
+    }
+  };
+  const paginaSiguienteCategoria = () => {
+    if (paginaActualCategoria + CORTE_CATEGORIA < ListaProductos().length) {
+      setPaginaActualCategoria(paginaActualCategoria + CORTE_CATEGORIA);
+    }
+  };
+  const paginaAnteriorCategoria = () => {
+    if (paginaActualCategoria > 0) {
+      setPaginaActualCategoria(paginaActualCategoria - CORTE_CATEGORIA);
     }
   };
   const handleEditar = producto => {
@@ -145,41 +165,39 @@ export function Productos() {
       <ModalEditar></ModalEditar>
       <ModalElimnar></ModalElimnar>
       <ModalAddProducto
-       onOpen={modalOnOpenUser}
-       onClose={modalOnCloseUser}
-       isOpen={modalIsOpenUser}
+        onOpen={modalOnOpenUser}
+        onClose={modalOnCloseUser}
+        isOpen={modalIsOpenUser}
       ></ModalAddProducto>
       <Box h={'100%'}>
-        <Box
-          columns={1}
-          spacingx="40px"
-          spacingy="5px"
-          rounded="md"
-          p={'7px'}
-          h={'8%'}
-          boxShadow="outline"
-          marginBottom={1}
-        >
-          <Box>
-            <Flex >
+        <Box h={'97%'}>
+          <Box h={'10%'} rounded="md" display={'flex'} boxShadow="base">
+            <Flex
+              width={'50%'}
+              paddingLeft={2}
+              justify={'left'}
+              gap={'3'}
+              align={'center'}
+            >
               <Text paddingBottom={1} textAlign={'initial'} fontSize="md">
                 Registrar Productos
               </Text>
-              <Spacer />
-              <Button onClick={modalOnOpenUser} size={"sm"}>+ anadir un producto</Button>
+              <Button
+                size={'sm'}
+                fontSize={'xs'}
+                whiteSpace={'normal'}
+                onClick={modalOnOpenUser}
+              >
+                Anadir producto
+              </Button>
             </Flex>
-          </Box>
-        </Box>
-
-        <Box h={'89%'}>
-          <Box
-            pt={3}
-            h={'10%'}
-            rounded="md"
-            boxShadow="outline"
-            marginBlock={3}
-          >
-            <Flex justify={'right'} gap={'3'} align={'center'} paddingEnd={1}>
+            <Flex
+              justify={'right'}
+              width={'50%'}
+              gap={'3'}
+              align={'center'}
+              paddingEnd={1}
+            >
               <Input
                 placeholder="Codigo o nombre"
                 size={'xs'}
@@ -189,76 +207,216 @@ export function Productos() {
             </Flex>
           </Box>
 
-          <Box overflowY="auto" h={'90%'} paddingEnd={1}>
-            <TableContainer paddingBottom={1}>
-              <Table variant="simple" colorScheme="" size={'sm'}>
-                <Thead>
-                  <Tr>
-                    <Th>Codigo</Th>
-                    <Th>Descripcion</Th>
-                    <Th isNumeric> Precio</Th>
-                    <Th isNumeric> Existencias</Th>
-                    <Th isNumeric> Precio</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {paginacion(ListaProductos, paginaActual, CORTE).map(
-                    (ele, id) => {
-                      return (
-                        <Tr key={id}>
-                          <Td>inches</Td>
-                          <Td whiteSpace="normal" maxWidth="300px">
-                            ssssssssssssssssss
-                          </Td>
-                          <Td isNumeric>{ele.codigo}</Td>
-                          <Td isNumeric>{ele.iva}</Td>
-                          <Td>
-                            <Flex gap={3} justify={'right'}>
-                              <IconButton
-                                aria-label="Search database"
-                                colorScheme="green"
-                                icon={<EditIcon />}
-                                size={'xs'}
-                                onClick={() => handleEditar(ele)}
-                              />
-                              <IconButton
-                                aria-label="Search database"
-                                size={'xs'}
-                                colorScheme="red"
-                                icon={<DeleteIcon />}
-                                onClick={onOpen}
-                              ></IconButton>
-                            </Flex>
-                          </Td>
+          <Tabs marginBlock={2} size={'xs'} isFitted variant="enclosed">
+            <TabList fontSize={'md'} size={'sm'} mb="3">
+              <Tab>Productos</Tab>
+              <Tab>Categoria</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel padding={'null'}>
+                <Box
+                  boxShadow="base"
+                  padding={2}
+                  overflowY="auto"
+                  rounded="md"
+                  h={'90%'}
+                  paddingEnd={1}
+                >
+                  <TableContainer paddingBottom={1}>
+                    <Table
+                      fontSize={'sm'}
+                      variant="simple"
+                      colorScheme=""
+                      size={'xs'}
+                    >
+                      <Thead>
+                        <Tr>
+                          <Th>Codigo</Th>
+                          <Th>Descripcion</Th>
+                          <Th isNumeric> Precio</Th>
+                          <Th isNumeric> Existencias</Th>
+                          <Th isNumeric> Precio</Th>
                         </Tr>
-                      );
-                    }
-                  )}
-                </Tbody>
-              </Table>
-            </TableContainer>
-            <Box marginTop={3}>
-              <Tooltip label="Atras" placement="left" aria-label="A tooltip">
-                <IconButton
-                  size={'sm'}
-                  icon={<ChevronLeftIcon />}
-                  onClick={paginaAnterior}
-                  marginRight={1}
-                ></IconButton>
-              </Tooltip>
-              <Tooltip
-                label="Siguiente"
-                placement="right"
-                aria-label="A tooltip"
-              >
-                <IconButton
-                  size={'sm'}
-                  icon={<ChevronRightIcon />}
-                  onClick={paginaSiguiente}
-                ></IconButton>
-              </Tooltip>
-            </Box>
-          </Box>
+                      </Thead>
+                      <Tbody>
+                        {paginacion(ListaProductos, paginaActual, CORTE).map(
+                          (ele, id) => {
+                            return (
+                              <Tr key={id}>
+                                <Td>inches</Td>
+                                <Td whiteSpace="normal" maxWidth="300px">
+                                  ssssssssssssssssss
+                                </Td>
+                                <Td isNumeric>{ele.codigo}</Td>
+                                <Td isNumeric>{ele.iva}</Td>
+                                <Td>
+                                  <Flex gap={3} justify={'right'}>
+                                    <IconButton
+                                      aria-label="Search database"
+                                      colorScheme="green"
+                                      icon={<EditIcon />}
+                                      size={'xs'}
+                                      onClick={() => handleEditar(ele)}
+                                      margin={1}
+                                    />
+                                    <IconButton
+                                      aria-label="Search database"
+                                      size={'xs'}
+                                      colorScheme="red"
+                                      icon={<DeleteIcon />}
+                                      onClick={onOpen}
+                                      margin={1}
+                                    ></IconButton>
+                                  </Flex>
+                                </Td>
+                              </Tr>
+                            );
+                          }
+                        )}
+                      </Tbody>
+                    </Table>
+                  </TableContainer>
+                  <Box marginTop={3}>
+                    <Tooltip
+                      label="Atras"
+                      placement="left"
+                      aria-label="A tooltip"
+                    >
+                      <IconButton
+                        size={'sm'}
+                        icon={<ChevronLeftIcon />}
+                        onClick={paginaAnterior}
+                        marginRight={1}
+                      ></IconButton>
+                    </Tooltip>
+                    <Tooltip
+                      label="Siguiente"
+                      placement="right"
+                      aria-label="A tooltip"
+                    >
+                      <IconButton
+                        size={'sm'}
+                        icon={<ChevronRightIcon />}
+                        onClick={paginaSiguiente}
+                      ></IconButton>
+                    </Tooltip>
+                  </Box>
+                </Box>
+              </TabPanel>
+
+              <TabPanel padding={'null'}>
+                <Box
+                  boxShadow="base"
+                  padding={2}
+                  overflowY="auto"
+                  rounded="md"
+                  h={'90%'}
+                  paddingEnd={1}
+                >
+                  <Flex
+                    marginBottom={3}
+                    rounded={'sm'}
+                    shadow={'base'}
+                    h={'10'}
+                    alignItems={'center'}
+                  >
+                    <Text marginRight={3} textAlign={'initial'} fontSize="md">
+                      Registrar Categoria
+                    </Text>
+                    <Button
+                      size={'sm'}
+                      fontSize={'xs'}
+                      whiteSpace={'normal'}
+                      onClick={modalOnOpenUser}
+                    >
+                      Anadir Categoria
+                    </Button>
+                  </Flex>
+                  <TableContainer paddingBottom={1}>
+                    <Table
+                      fontSize={'sm'}
+                      variant="simple"
+                      colorScheme=""
+                      size={'xs'}
+                    >
+                      <Thead>
+                        <Tr>
+                          <Th>Codigo</Th>
+                          <Th>Descripcion</Th>
+                          <Th isNumeric> Precio</Th>
+                          <Th isNumeric> Existencias</Th>
+                          <Th isNumeric> Precio</Th>
+                        </Tr>
+                      </Thead>
+                      <Tbody>
+                        {paginacion(
+                          ListaProductos,
+                          paginaActualCategoria,
+                          CORTE_CATEGORIA
+                        ).map((ele, id) => {
+                          return (
+                            <Tr key={id}>
+                              <Td>inches</Td>
+                              <Td whiteSpace="normal" maxWidth="300px">
+                                ssssssssssssssssss
+                              </Td>
+                              <Td isNumeric>{ele.codigo}</Td>
+                              <Td isNumeric>{ele.iva}</Td>
+                              <Td>
+                                <Flex gap={3} justify={'right'}>
+                                  <IconButton
+                                    aria-label="Search database"
+                                    colorScheme="green"
+                                    icon={<EditIcon />}
+                                    size={'xs'}
+                                    onClick={() => handleEditar(ele)}
+                                    margin={1}
+                                  />
+                                  <IconButton
+                                    aria-label="Search database"
+                                    size={'xs'}
+                                    colorScheme="red"
+                                    icon={<DeleteIcon />}
+                                    onClick={onOpen}
+                                    margin={1}
+                                  ></IconButton>
+                                </Flex>
+                              </Td>
+                            </Tr>
+                          );
+                        })}
+                      </Tbody>
+                    </Table>
+                  </TableContainer>
+                  <Box marginTop={3}>
+                    <Tooltip
+                      label="Atras"
+                      placement="left"
+                      aria-label="A tooltip"
+                    >
+                      <IconButton
+                        size={'sm'}
+                        icon={<ChevronLeftIcon />}
+                        onClick={paginaAnteriorCategoria}
+                        marginRight={1}
+                      ></IconButton>
+                    </Tooltip>
+                    <Tooltip
+                      label="Siguiente"
+                      placement="right"
+                      aria-label="A tooltip"
+                    >
+                      <IconButton
+                        size={'sm'}
+                        icon={<ChevronRightIcon />}
+                        onClick={paginaSiguienteCategoria}
+                      ></IconButton>
+                    </Tooltip>
+                  </Box>
+                </Box>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
         </Box>
       </Box>
     </>

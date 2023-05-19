@@ -4,8 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Productos } from './paginas/productos';
 import { Usuarios } from './paginas/usuarios';
 import { Clientes } from './paginas/clientes';
-
-
+import NuevaFactura from './paginas/nueva-factura'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -22,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: '/Usuarios',
         element: <Usuarios />,
+      },
+      {
+        path: '/NuevaFactura',
+        element: <NuevaFactura />,
       },
     ],
   },

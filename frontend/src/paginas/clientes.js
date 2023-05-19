@@ -38,7 +38,6 @@ function ListaUsuarios() {
       email: '3',
       telefono: '0.2',
     },
-    
   ];
 
   return producto;
@@ -71,7 +70,7 @@ export function Clientes() {
 
   return (
     <>
-      <ModalEditarCliente ></ModalEditarCliente>
+      <ModalEditarCliente></ModalEditarCliente>
       <ModalElimnar></ModalElimnar>
       <ModalAdd
         onOpen={modalOnOpen}
@@ -83,21 +82,23 @@ export function Clientes() {
       <Box h={'95%'}>
         <Box h={'100%'}>
           <Box
-            pt={3}
             h={'10%'}
             rounded="md"
-            boxShadow="outline"
-            marginBlock={3}
+            boxShadow="base"
             display={'flex'}
+            justify-content={'center'}
+            alignItems={'center'}
           >
-            <Button
-              size={'sm'}
-              marginLeft={4}
-              justifyContent={'left'}
-              onClick={modalOnOpen}
-            >
-              + nuevo cliente
-            </Button>
+            <Flex>
+              <Button
+                size={'xs'}
+                marginLeft={4}
+                justifyContent={'left'}
+                onClick={modalOnOpen}
+              >
+                nuevo cliente
+              </Button>
+            </Flex>
 
             <Flex
               justify={'right'}
@@ -111,9 +112,22 @@ export function Clientes() {
             </Flex>
           </Box>
 
-          <Box overflowY="auto" h={'90%'} paddingEnd={1} marginBlock={6}>
+          <Box
+            overflowY="auto"
+            h={'90%'}
+            paddingEnd={1}
+            boxShadow="base"
+            rounded={'md'}
+            marginBlock={3}
+            padding={2}
+          >
             <TableContainer paddingBottom={2}>
-              <Table variant="simple" colorScheme="" size={'sm'}>
+              <Table
+                fontSize={'sm'}
+                variant="simple"
+                colorScheme=""
+                size={'xs'}
+              >
                 <Thead>
                   <Tr>
                     <Th>Id</Th>
@@ -125,37 +139,41 @@ export function Clientes() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {paginacion(ListaUsuarios, paginaActual, CORTE).map((ele, id) => {
-                    return (
-                      <Tr key={id}>
-                        <Td>{id}</Td>
-                        <Td whiteSpace="normal" maxWidth="300px">
-                          ssssssssssssssssss
-                        </Td>
-                        <Td>{ele.codigo}</Td>
-                        <Td>{ele.iva}</Td>
-                        <Td>{ele.iva}</Td>
-                        <Td>
-                          <Flex gap={3} justify={'right'}>
-                            <IconButton
-                              size={'xs'}
-                              aria-label="Search database"
-                              colorScheme="green"
-                              icon={<EditIcon />}
-                              onClick={() => handleEditar(ele)}
-                            />
-                            <IconButton
-                              size={'xs'}
-                              aria-label="Search database"
-                              colorScheme="red"
-                              icon={<DeleteIcon />}
-                              onClick={onOpen}
-                            ></IconButton>
-                          </Flex>
-                        </Td>
-                      </Tr>
-                    );
-                  })}
+                  {paginacion(ListaUsuarios, paginaActual, CORTE).map(
+                    (ele, id) => {
+                      return (
+                        <Tr key={id}>
+                          <Td>{id}</Td>
+                          <Td whiteSpace="normal" maxWidth="300px">
+                            ssssssssssssssssss
+                          </Td>
+                          <Td>{ele.codigo}</Td>
+                          <Td>{ele.iva}</Td>
+                          <Td>{ele.iva}</Td>
+                          <Td>
+                            <Flex gap={3} justify={'right'}>
+                              <IconButton
+                                size={'xs'}
+                                aria-label="Search database"
+                                colorScheme="green"
+                                icon={<EditIcon />}
+                                onClick={() => handleEditar(ele)}
+                                margin={1}
+                              />
+                              <IconButton
+                                size={'xs'}
+                                aria-label="Search database"
+                                colorScheme="red"
+                                icon={<DeleteIcon />}
+                                onClick={onOpen}
+                                margin={1}
+                              ></IconButton>
+                            </Flex>
+                          </Td>
+                        </Tr>
+                      );
+                    }
+                  )}
                 </Tbody>
               </Table>
             </TableContainer>
