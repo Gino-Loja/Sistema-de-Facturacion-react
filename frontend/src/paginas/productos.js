@@ -20,7 +20,7 @@ import {
   TabPanel,
   TabPanels,
 } from '@chakra-ui/react';
-import ModalEditar from '../componentes/modal/modalEditar';
+import ModalEditarCategoria from '../componentes/modal/modalEditarCategoria';
 import ModalElimnar from '../componentes/modal/modalEliminar';
 import { useContext, useState } from 'react';
 import { ContextModal } from '../context/contextModal';
@@ -33,6 +33,9 @@ import {
 } from '@chakra-ui/icons';
 import { paginacion } from '../helpers/paginacion';
 import { ModalAddProducto } from '../componentes/modal/modalAddProducto';
+import ModalAddCategoria from '../componentes/modal/modalAddCategoria';
+import { ModalEditarProducto } from '../componentes/modal/modalEditarProductos';
+
 function ListaProductos() {
   const producto = [
     {
@@ -63,73 +66,27 @@ function ListaProductos() {
       existencia: '3',
       iva: '0.2',
     },
-    {
-      codigo: '20',
-      descripcion: 'nada por ahora',
-      precio: '2222222222',
-      existencia: '3',
-      iva: '0.2',
-    },
-    {
-      codigo: '20',
-      descripcion: 'nada por ahora',
-      precio: '233333333333',
-      existencia: '3',
-      iva: '0.2',
-    },
-    {
-      codigo: '200000000000',
-      descripcion: 'nada por ahora',
-      precio: '1',
-      existencia: '3',
-      iva: '0.2',
-    },
-    {
-      codigo: '20',
-      descripcion: 'nada por ahora',
-      precio: '2222222222',
-      existencia: '3',
-      iva: '0.2',
-    },
-    {
-      codigo: '20',
-      descripcion: 'nada por ahora',
-      precio: '233333333333',
-      existencia: '3',
-      iva: '0.2',
-    },
-    {
-      codigo: '200000000000',
-      descripcion: 'nada por ahora',
-      precio: '1',
-      existencia: '3',
-      iva: '0.2',
-    },
-    {
-      codigo: '20',
-      descripcion: 'nada por ahora',
-      precio: '2222222222',
-      existencia: '3',
-      iva: '0.2',
-    },
-    {
-      codigo: '20',
-      descripcion: 'nada por ahora',
-      precio: '233333333333',
-      existencia: '3',
-      iva: '0.2',
-    },
   ];
 
   return producto;
 }
 export function Productos() {
   const {
+    isOpen: modalisOpenCategoria,
+    onOpen: modalOnpenCategoria,
+    onClose: modalOncloseCategoria,
+  } = useDisclosure();
+  const {
     isOpen: modalIsOpenUser,
     onOpen: modalOnOpenUser,
     onClose: modalOnCloseUser,
   } = useDisclosure();
-  const { onOpen, modalEditar } = useContext(ContextModal);
+  const {
+    isOpen: isOpenCategoria,
+    onOpen: onOpenCategoria,
+    onClose: onCloseCategoria,
+  } = useDisclosure();
+  const { onOpen, modalEditar, editarCategoria } = useContext(ContextModal);
   const CORTE = 10;
   const CORTE_CATEGORIA = 8;
   const [paginaActual, setPaginaActual] = useState(0);
@@ -159,16 +116,29 @@ export function Productos() {
     modalEditar.onOpenEd();
     modalEditar.setModalValor(producto);
   };
+  const handleEditar2 = producto => {
+    modalOnpenCategoria()
+    editarCategoria.setValorCategoria(producto);
+  };
 
   return (
     <>
-      <ModalEditar></ModalEditar>
+      <ModalEditarCategoria
+        isOpen={modalisOpenCategoria}
+        onClose={modalOncloseCategoria}
+      ></ModalEditarCategoria>
       <ModalElimnar></ModalElimnar>
       <ModalAddProducto
         onOpen={modalOnOpenUser}
         onClose={modalOnCloseUser}
         isOpen={modalIsOpenUser}
       ></ModalAddProducto>
+      <ModalEditarProducto></ModalEditarProducto>
+      <ModalAddCategoria
+        isOpen={isOpenCategoria}
+        onClose={onCloseCategoria}
+      ></ModalAddCategoria>
+
       <Box h={'100%'}>
         <Box h={'97%'}>
           <Box h={'10%'} rounded="md" display={'flex'} boxShadow="base">
@@ -319,6 +289,7 @@ export function Productos() {
                     shadow={'base'}
                     h={'10'}
                     alignItems={'center'}
+                    justifyContent={'right'}
                   >
                     <Text marginRight={3} textAlign={'initial'} fontSize="md">
                       Registrar Categoria
@@ -327,7 +298,7 @@ export function Productos() {
                       size={'sm'}
                       fontSize={'xs'}
                       whiteSpace={'normal'}
-                      onClick={modalOnOpenUser}
+                      onClick={onOpenCategoria}
                     >
                       Anadir Categoria
                     </Button>
@@ -342,10 +313,9 @@ export function Productos() {
                       <Thead>
                         <Tr>
                           <Th>Codigo</Th>
-                          <Th>Descripcion</Th>
-                          <Th isNumeric> Precio</Th>
-                          <Th isNumeric> Existencias</Th>
-                          <Th isNumeric> Precio</Th>
+                          <Th>Nombre</Th>
+                          <Th> Descripcion</Th>
+                          <Th> Accion </Th>
                         </Tr>
                       </Thead>
                       <Tbody>
@@ -360,16 +330,16 @@ export function Productos() {
                               <Td whiteSpace="normal" maxWidth="300px">
                                 ssssssssssssssssss
                               </Td>
-                              <Td isNumeric>{ele.codigo}</Td>
-                              <Td isNumeric>{ele.iva}</Td>
+                              <Td>{ele.codigo}</Td>
+
                               <Td>
-                                <Flex gap={3} justify={'right'}>
+                                <Flex gap={3} justify={'left'}>
                                   <IconButton
                                     aria-label="Search database"
                                     colorScheme="green"
                                     icon={<EditIcon />}
                                     size={'xs'}
-                                    onClick={() => handleEditar(ele)}
+                                    onClick={() => handleEditar2(ele)}
                                     margin={1}
                                   />
                                   <IconButton
@@ -388,6 +358,7 @@ export function Productos() {
                       </Tbody>
                     </Table>
                   </TableContainer>
+
                   <Box marginTop={3}>
                     <Tooltip
                       label="Atras"

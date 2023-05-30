@@ -6,6 +6,8 @@ export const ContextModal = createContext();
 export function ContextModalProvider(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [ valorModal, setModalValor] = useState({})
+  const [ valorCategoria, setValorCategoria] = useState({})
+
   const {
     isOpen: isOpenEd,
     onOpen: onOpenEd,
@@ -25,6 +27,10 @@ export function ContextModalProvider(props) {
           valorModal,
           setModalValor
         },
+        editarCategoria: {
+          valorCategoria,
+          setValorCategoria
+        }
       }}
     >
       {props.children}

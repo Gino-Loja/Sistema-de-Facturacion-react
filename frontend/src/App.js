@@ -5,6 +5,7 @@ import { Productos } from './paginas/productos';
 import { Usuarios } from './paginas/usuarios';
 import { Clientes } from './paginas/clientes';
 import NuevaFactura from './paginas/nueva-factura'
+import { Dashboard } from './paginas/dashboard';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
         path: '/NuevaFactura',
         element: <NuevaFactura />,
       },
+      {
+        path: '/Dashboard',
+        element: <Dashboard/>
+      }
     ],
   },
 ]);

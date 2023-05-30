@@ -1,0 +1,21 @@
+[{
+
+    "codigo":"0002",
+    "descripcion": "jugo",
+    "precio": 10,
+    "cantidad": 2,
+    "categoria":"lacteos"
+}
+,
+
+{
+    "nombre":"gino",
+    "apellido":"loja",
+    "email":"ginola2@hk.com",
+    "telefono":"0192920",
+    "direccion":
+    {
+        "calle":"via-nada",
+        "ciudad":"joya de los sachas"
+    }
+}]

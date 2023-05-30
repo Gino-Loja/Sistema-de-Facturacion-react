@@ -11,36 +11,26 @@ import {
   FormLabel,
   Input,
 } from '@chakra-ui/react';
-import { React, useContext } from 'react';
-import { ContextModal } from '../../context/contextModal';
-export default function ModelEdit(props) {
-  const { modalEditar } = useContext(ContextModal);
-
+export default function ModalAddCategoria({isOpen,onClose }) {
   return (
     <>
       <Modal
         isCentered
-        isOpen={modalEditar.isOpenEd}
-        onClose={modalEditar.onClosEd}
+        isOpen={isOpen}
+        onClose={onClose}
         size={'sm'}
       >
-        <ModalOverlay
-
-        />
+        <ModalOverlay />
         <ModalContent>
-          <ModalHeader> Editar Productos</ModalHeader>
+          <ModalHeader> Anadir Categoria</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl>
-              <FormLabel>{modalEditar.valorModal.codigo}</FormLabel>
+              <FormLabel>Codigo</FormLabel>
+              <Input size={'sm'} />
+              <FormLabel>Nombre</FormLabel>
               <Input size={'sm'} />
               <FormLabel>Descripcion</FormLabel>
-              <Input size={'sm'} />
-              <FormLabel>Precio</FormLabel>
-              <Input size={'sm'} />
-              <FormLabel>Existencias</FormLabel>
-              <Input size={'sm'} />
-              <FormLabel>Iva</FormLabel>
               <Input size={'sm'} />
             </FormControl>
           </ModalBody>
@@ -48,7 +38,7 @@ export default function ModelEdit(props) {
             <Button size={'sm'} colorScheme="blue" mr={3}>
               Guardar
             </Button>
-            <Button size={'sm'} onClick={modalEditar.onClosEd}>
+            <Button size={'sm'} onClick={onClose}>
               Cerrar
             </Button>
           </ModalFooter>

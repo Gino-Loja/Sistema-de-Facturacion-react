@@ -11,18 +11,15 @@ import {
   Thead,
   Tbody,
   IconButton,
-  Tooltip,
   Spacer,
   useDisclosure,
-
+  FormLabel,
+  FormControl,
+  Select,
+  Tfoot,
 } from '@chakra-ui/react';
 
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  EditIcon,
-  DeleteIcon,
-} from '@chakra-ui/icons';
+import { DeleteIcon } from '@chakra-ui/icons';
 import { useContext, useState } from 'react';
 import { ContextModal } from '../context/contextModal';
 import { paginacion } from '../helpers/paginacion';
@@ -57,22 +54,6 @@ export default function NuevaFactura() {
     onClose: modalOnClose,
   } = useDisclosure();
 
-  const handleEditar = producto => {
-    modalEditar.onOpenEd();
-    modalEditar.setModalValor(producto);
-  };
-
-  const paginaSiguiente = () => {
-    if (paginaActual + CORTE < ListaUsuarios().length) {
-      setPaginaActual(paginaActual + CORTE);
-    }
-  };
-  const paginaAnterior = () => {
-    if (paginaActual > 0) {
-      setPaginaActual(paginaActual - CORTE);
-    }
-  };
-
   return (
     <>
       <ModalEditarUsuario></ModalEditarUsuario>
@@ -94,7 +75,10 @@ export default function NuevaFactura() {
           alignItems={'center'}
           justifyItems={'center'}
         >
-          <text fontSize={["1px", "24px", "32px"]}> Detalles de la factura</text>
+          <text fontSize={['1px', '24px', '32px']}>
+            {' '}
+            Detalles de la factura
+          </text>
           <Spacer />
           <Button
             size={'sm'}
@@ -107,7 +91,7 @@ export default function NuevaFactura() {
         </Box>
         <Box
           pt={3}
-          h={'10%'}
+          h={'13%'}
           rounded="md"
           boxShadow="base"
           marginBlock={3}
@@ -116,38 +100,67 @@ export default function NuevaFactura() {
           <Flex
             justify={'right'}
             gap={'3'}
-            align={'center'}
             paddingEnd={2}
             w={'100%'}
+            alignItems={'center'}
+            paddingBottom={3}
+            paddingLeft={1}
           >
-            <Input size={'xs'} w={'20%'}></Input>
-            <Input
-              placeholder="Selecciona la fecha"
-              size="xs"
-              type="datetime-local"
-              defaultValue={new Date().toISOString().substr(0, 16)}
-              min={new Date().toISOString().substr(0, 16)}
-              max={new Date().toISOString().substr(0, 16)}
-              isDisabled
-            />
-            <Input size={'xs'} w={'40%'}></Input>
-            <Button size={'xs'}>Buscar</Button>
+            <FormControl w={'60%'}>
+              <FormLabel m={0}>Cliente</FormLabel>
+              <Input m={0} size={'xs'}></Input>
+            </FormControl>
+            <FormControl>
+              <FormLabel m={0}>Fecha</FormLabel>
+              <Input
+                placeholder="Selecciona la fecha"
+                size="xs"
+                type="datetime-local"
+                defaultValue={new Date().toISOString().substr(0, 16)}
+                min={new Date().toISOString().substr(0, 16)}
+                max={new Date().toISOString().substr(0, 16)}
+                isDisabled
+              />
+            </FormControl>
+            <FormControl w={'30%'}>
+              <FormLabel m={0}>Descuento %</FormLabel>
+              <Input size={'xs'}></Input>
+            </FormControl>
+            <FormControl w={'50%'}>
+              <FormLabel m={0}>Forma de Pago</FormLabel>
+              <Select variant={'filled'} size={'xs'}>
+                <option value="option1"> Efectivo</option>
+                <option value="option2">Cheque</option>
+              </Select>
+            </FormControl>
+
+            <FormControl w={'30%'}>
+              <FormLabel m={0}>N Factura</FormLabel>
+              <Input size={'xs'}></Input>
+            </FormControl>
+            <FormControl w={'50%'} textAlign={'left'}>
+              <FormLabel m={0}>Agregar Productos</FormLabel>
+              <Button size={'sm'}>Buscar productos</Button>
+            </FormControl>
           </Flex>
         </Box>
 
-    
-
-        <Box overflowY="auto" h={'90%'} paddingEnd={1} marginBlock={6}>
+        <Box overflowY="auto" h={'75%'} paddingEnd={1} marginBlock={6}>
           <TableContainer paddingBottom={2}>
-            <Table fontSize={'sm'} variant="simple" colorScheme="" size={'xs'}>
+            <Table
+              fontSize={'sm'}
+              variant="unstyled"
+              colorScheme=""
+              size={'xs'}
+            >
               <Thead>
                 <Tr>
                   <Th>Id</Th>
-                  <Th>Nombres</Th>
-                  <Th> Cargo</Th>
-                  <Th> Email</Th>
-                  <Th> Telefono</Th>
-                  <Th> Estado</Th>
+                  <Th>Cant</Th>
+                  <Th> Descripcion</Th>
+                  <Th> Precio Unit</Th>
+                  <Th> Precio Total</Th>
+                  <Th> </Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -159,18 +172,12 @@ export default function NuevaFactura() {
                         <Td whiteSpace="normal" maxWidth="300px">
                           ssssssssssssssssss
                         </Td>
-                        <Td>{ele.codigo}</Td>
-                        <Td>{ele.iva}</Td>
-                        <Td>{ele.iva}</Td>
+                        <Td>{ele.nombres}</Td>
+                        <Td>{ele.nombres}</Td>
+                        <Td>{ele.nombres}</Td>
+
                         <Td>
-                          <Flex gap={3} justify={'right'}>
-                            <IconButton
-                              size={'xs'}
-                              aria-label="Search database"
-                              colorScheme="green"
-                              icon={<EditIcon />}
-                              onClick={() => handleEditar(ele)}
-                            />
+                          <Flex>
                             <IconButton
                               size={'xs'}
                               aria-label="Search database"
@@ -185,26 +192,25 @@ export default function NuevaFactura() {
                   }
                 )}
               </Tbody>
+              <Tfoot>
+                <Tr>
+                  <Th colSpan={3}></Th>
+                  <Th>Neto</Th>
+                  <Th>0,1</Th>
+                </Tr>
+                <Tr>
+                  <Th colSpan={3}></Th>
+                  <Th>Iva</Th>
+                  <Th>0.0</Th>
+                </Tr>
+                <Tr>
+                  <Th colSpan={3}></Th>
+                  <Th>Total</Th>
+                  <Th>0,0</Th>
+                </Tr>
+              </Tfoot>
             </Table>
           </TableContainer>
-
-          <Box>
-            <Tooltip label="Atras" placement="left" aria-label="A tooltip">
-              <IconButton
-                size={'sm'}
-                icon={<ChevronLeftIcon />}
-                onClick={paginaAnterior}
-                marginRight={3}
-              ></IconButton>
-            </Tooltip>
-            <Tooltip label="Siguiente" placement="right" aria-label="A tooltip">
-              <IconButton
-                size={'sm'}
-                icon={<ChevronRightIcon />}
-                onClick={paginaSiguiente}
-              ></IconButton>
-            </Tooltip>
-          </Box>
         </Box>
       </Box>
     </>
