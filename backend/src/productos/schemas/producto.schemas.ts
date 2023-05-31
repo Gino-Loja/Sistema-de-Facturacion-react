@@ -8,5 +8,6 @@ export const ProductoSchemas = new Schema(
         "precio": Number,
         "cantidad": Number,
         "categoria": String,
-    }
+    },
+    { versionKey: false }
 )

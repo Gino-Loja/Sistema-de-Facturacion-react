@@ -10,11 +10,13 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const productos_module_1 = require("./productos/productos.module");
 const mongoose_1 = require("@nestjs/mongoose");
+const categorias_module_1 = require("./categorias/categorias.module");
+const usuarios_module_1 = require("./usuarios/usuarios.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [productos_module_1.ProductosModule, mongoose_1.MongooseModule.forRoot('mongodb+srv://gino:12345@cluster0.qmbvrgo.mongodb.net/sistema_facturacion_test?retryWrites=true&w=majority')],
+        imports: [mongoose_1.MongooseModule.forRoot('mongodb+srv://gino:12345@cluster0.qmbvrgo.mongodb.net/sistema_facturacion_test?retryWrites=true&w=majority'), productos_module_1.ProductosModule, categorias_module_1.CategoriasModule, usuarios_module_1.UsuariosModule],
         controllers: [],
         providers: [],
     })

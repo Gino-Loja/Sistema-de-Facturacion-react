@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose'
 import { InjectModel } from '@nestjs/mongoose'
-import { ProductoSchemas } from './schemas/producto.schemas'
 import { Producto } from './interface/producto.interface'
 import { CrearProductoDto } from './dto/producto.dto'
 
@@ -18,7 +17,7 @@ export class ProductosService {
         return await nuevoProducto.save();
     }
     async actualizarUnProducto(productoId: string, crearProductoDto: CrearProductoDto) {
-        const actualizaProducto = await this.modeloProducto.findByIdAndUpdate(productoId, crearProductoDto, {new: true});
+        const actualizaProducto = await this.modeloProducto.findByIdAndUpdate(productoId, crearProductoDto, {new: true,versionKey: false});
         return actualizaProducto;
     }
     async eliminarUnProducto(productoId: string) {

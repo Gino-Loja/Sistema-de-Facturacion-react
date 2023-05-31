@@ -8,5 +8,5 @@ exports.ProductoSchemas = new mongoose_1.Schema({
     "precio": Number,
     "cantidad": Number,
     "categoria": String,
-});
+}, { versionKey: false });
 //# sourceMappingURL=producto.schemas.js.map

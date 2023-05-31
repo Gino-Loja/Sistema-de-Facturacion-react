@@ -5,4 +5,6 @@ export declare class ProductosController {
     constructor(serviciosProductos: ProductosService);
     obtenerTodosLosProductos(res: any): Promise<any>;
     crearUnProducto(res: any, crearUnProductDto: CrearProductoDto): Promise<any>;
+    eliminarUnProducto(res: any, prodductoId: any): Promise<any>;
+    actualizarUnProducto(res: any, createProductDto: CrearProductoDto, productoId: any): Promise<any>;
 }

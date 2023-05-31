@@ -34,7 +34,10 @@ export declare class ProductosService {
     crearUnProducto(crearProductoDto: CrearProductoDto): Promise<import("mongoose").Document<unknown, {}, Producto> & Omit<Producto & {
         _id: import("mongoose").Types.ObjectId;
     }, never>>;
-    actualizarUnProducto(): void;
-    eliminarUnProducto(): void;
-    editarUnProducto(): void;
+    actualizarUnProducto(productoId: string, crearProductoDto: CrearProductoDto): Promise<import("mongoose").Document<unknown, {}, Producto> & Omit<Producto & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>>;
+    eliminarUnProducto(productoId: string): Promise<import("mongoose").Document<unknown, {}, Producto> & Omit<Producto & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>>;
 }

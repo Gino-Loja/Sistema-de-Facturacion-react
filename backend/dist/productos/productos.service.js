@@ -25,14 +25,16 @@ let ProductosService = class ProductosService {
         return productos;
     }
     async crearUnProducto(crearProductoDto) {
-        const producto = new this.modeloProducto(crearProductoDto);
-        return await producto.save();
+        const nuevoProducto = new this.modeloProducto(crearProductoDto);
+        return await nuevoProducto.save();
     }
-    actualizarUnProducto() {
+    async actualizarUnProducto(productoId, crearProductoDto) {
+        const actualizaProducto = await this.modeloProducto.findByIdAndUpdate(productoId, crearProductoDto, { new: true, versionKey: false });
+        return actualizaProducto;
     }
-    eliminarUnProducto() {
-    }
-    editarUnProducto() {
+    async eliminarUnProducto(productoId) {
+        const elimarProducto = await this.modeloProducto.findByIdAndDelete(productoId);
+        return elimarProducto;
     }
 };
 ProductosService = __decorate([

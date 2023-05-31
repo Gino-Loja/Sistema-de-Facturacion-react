@@ -1,6 +1,6 @@
-import { Controller, Get,Res,HttpStatus, Post, Body, Delete, Query, Put } from '@nestjs/common';
+import { Controller, Get, Res, HttpStatus, Post, Body, Delete, Query, Put } from '@nestjs/common';
 import { ProductosService } from './productos.service';
-import {CrearProductoDto} from './dto/producto.dto'
+import { CrearProductoDto } from './dto/producto.dto'
 
 @Controller('productos')
 export class ProductosController {
@@ -10,12 +10,12 @@ export class ProductosController {
     async obtenerTodosLosProductos(@Res() res) {
         const productos = await this.serviciosProductos.obtenerTodosLosProductos();
         console.log(productos)
-        return  res.status(HttpStatus.OK).json({
+        return res.status(HttpStatus.OK).json({
             productos
         });
     }
     @Post('/crear')
-    async crearUnProducto(@Res() res, @Body() crearUnProductDto:CrearProductoDto){
+    async crearUnProducto(@Res() res, @Body() crearUnProductDto: CrearProductoDto) {
         const producto = await this.serviciosProductos.crearUnProducto(crearUnProductDto);
         return res.status(HttpStatus.OK).json({
             producto
@@ -23,10 +23,10 @@ export class ProductosController {
     }
 
     @Delete('/eliminar')
-    async eliminarUnProducto(@Res() res , @Query('productoId') prodductoId ){
+    async eliminarUnProducto(@Res() res, @Query('productoId') prodductoId) {
         const productoEliminado = await this.serviciosProductos.eliminarUnProducto(prodductoId)
-        if (!productoEliminado){
-            return {estado: "producto no existe"}
+        if (!productoEliminado) {
+            return { estado: "producto no existe" }
         }
         return res.status(HttpStatus.OK).json(
             productoEliminado
@@ -34,7 +34,16 @@ export class ProductosController {
     }
 
     @Put('/actualizar')
-    async actualizarUnProducto(@Res() res, @Body create){
+    async actualizarUnProducto(@Res() res, @Body() createProductDto: CrearProductoDto, @Query('productoId') productoId) {
+        const actualizarProducto = await this.serviciosProductos.actualizarUnProducto(productoId, createProductDto);
+        if (!actualizarProducto){
+            return { estado: "producto no existe" }
+        }
+        return res.status(HttpStatus.OK).json(
+            {
+                actualizarProducto
+            }
+        )
 
     }
 }

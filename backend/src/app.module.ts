@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ProductosModule } from './productos/productos.module';
 import { MongooseModule } from '@nestjs/mongoose'
+import { CategoriasModule } from './categorias/categorias.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
 
 @Module({
-  imports: [ProductosModule,MongooseModule.forRoot('mongodb+srv://gino:12345@cluster0.qmbvrgo.mongodb.net/sistema_facturacion_test?retryWrites=true&w=majority')],
+  imports: [MongooseModule.forRoot('mongodb+srv://gino:12345@cluster0.qmbvrgo.mongodb.net/sistema_facturacion_test?retryWrites=true&w=majority'),ProductosModule,CategoriasModule, UsuariosModule],
   controllers: [],
   providers: [],
 })
