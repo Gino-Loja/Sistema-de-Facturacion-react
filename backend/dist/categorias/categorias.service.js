@@ -29,7 +29,7 @@ let CategoriasService = class CategoriasService {
         return await nuevaCategoria.save();
     }
     async actualizarUnaCategoria(productoId, crearProductoDto) {
-        const actualizaCategoria = await this.modeloCategoria.findByIdAndUpdate(productoId, crearProductoDto, { new: true });
+        const actualizaCategoria = await this.modeloCategoria.findByIdAndUpdate(productoId, crearProductoDto, { new: true, versionKey: false });
         return actualizaCategoria;
     }
     async eliminarUnaCategoria(productoId) {

@@ -33,6 +33,22 @@ let CategoriasController = class CategoriasController {
             producto
         });
     }
+    async eliminarUnProducto(res, prodductoId) {
+        const categoriaEliminada = await this.serviciosCategoria.eliminarUnaCategoria(prodductoId);
+        if (!categoriaEliminada) {
+            return { estado: "producto no existe" };
+        }
+        return res.status(common_1.HttpStatus.OK).json(categoriaEliminada);
+    }
+    async actualizarUnProducto(res, crearCategoriaDto, productoId) {
+        const actualizarCategoria = await this.serviciosCategoria.actualizarUnaCategoria(productoId, crearCategoriaDto);
+        if (!actualizarCategoria) {
+            return { estado: "producto no existe" };
+        }
+        return res.status(common_1.HttpStatus.OK).json({
+            actualizarCategoria
+        });
+    }
 };
 __decorate([
     (0, common_1.Get)('/'),
@@ -49,6 +65,23 @@ __decorate([
     __metadata("design:paramtypes", [Object, categoria_dto_1.CrearCategoriaDto]),
     __metadata("design:returntype", Promise)
 ], CategoriasController.prototype, "crearUnaCategoria", null);
+__decorate([
+    (0, common_1.Delete)('/eliminar'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('categoriaId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], CategoriasController.prototype, "eliminarUnProducto", null);
+__decorate([
+    (0, common_1.Put)('/actualizar'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Query)('categoriaId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, categoria_dto_1.CrearCategoriaDto, Object]),
+    __metadata("design:returntype", Promise)
+], CategoriasController.prototype, "actualizarUnProducto", null);
 CategoriasController = __decorate([
     (0, common_1.Controller)('categorias'),
     __metadata("design:paramtypes", [categorias_service_1.CategoriasService])

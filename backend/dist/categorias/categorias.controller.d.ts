@@ -5,4 +5,6 @@ export declare class CategoriasController {
     constructor(serviciosCategoria: CategoriasService);
     obtenerTodasLasCategorias(res: any): Promise<any>;
     crearUnaCategoria(res: any, crearCategoriaDto: CrearCategoriaDto): Promise<any>;
+    eliminarUnProducto(res: any, prodductoId: any): Promise<any>;
+    actualizarUnProducto(res: any, crearCategoriaDto: CrearCategoriaDto, productoId: any): Promise<any>;
 }

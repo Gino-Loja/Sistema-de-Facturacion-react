@@ -11,17 +11,17 @@ export class CategoriasService {
         return categoria;
     }
 
-    async crearUnaCategoria(crearCategoriaDto: CrearCategoriaDto){
-        const nuevaCategoria =  new this.modeloCategoria(crearCategoriaDto);
+    async crearUnaCategoria(crearCategoriaDto: CrearCategoriaDto) {
+        const nuevaCategoria = new this.modeloCategoria(crearCategoriaDto);
         return await nuevaCategoria.save();
     }
     async actualizarUnaCategoria(productoId: string, crearProductoDto: CrearCategoriaDto) {
-        const actualizaCategoria = await this.modeloCategoria.findByIdAndUpdate(productoId, crearProductoDto, {new: true});
+        const actualizaCategoria = await this.modeloCategoria.findByIdAndUpdate(productoId, crearProductoDto, { new: true, versionKey: false });
         return actualizaCategoria;
     }
     async eliminarUnaCategoria(productoId: string) {
-        const elimarCategoria = await this.modeloCategoria.findByIdAndDelete(productoId);
-        return elimarCategoria;
-    }
+    const elimarCategoria = await this.modeloCategoria.findByIdAndDelete(productoId);
+    return elimarCategoria;
+}
 
 }
