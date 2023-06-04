@@ -21,6 +21,8 @@ import { React, useContext } from 'react';
 import { ContextModal } from '../../context/contextModal';
 export function ModalEditarProducto() {
   const { modalEditar } = useContext(ContextModal);
+  const {valorModal:producto} = modalEditar;
+ 
   return (
     <>
       <Modal
@@ -41,14 +43,14 @@ export function ModalEditarProducto() {
               <TabPanels>
                 <TabPanel>
                   <FormControl>
-                    <FormLabel>Codigo</FormLabel>
-                    <Input size={'sm'} placeholder="Codigo" />
+                    <FormLabel>Categoria</FormLabel>
+                    <Input size={'sm'} isRequired={true} placeholder="Codigo" defaultValue={producto.categoria} />
                     <FormLabel>Descripcion</FormLabel>
-                    <Input size={'sm'} placeholder="Descripcion" />
+                    <Input size={'sm'} isRequired placeholder="Descripcion" defaultValue={producto.descripcion} />
                     <FormLabel>Precio</FormLabel>
-                    <Input size={'sm'} placeholder="First name" />
+                    <Input size={'sm'} isRequired placeholder="First name" defaultValue={producto.precio} />
                     <FormLabel>Cantidad</FormLabel>
-                    <Input size={'sm'} placeholder="Existencia" />
+                    <Input size={'sm'} isRequired placeholder="Existencia" defaultValue={producto.cantidad}/>
                   </FormControl>
                 </TabPanel>
                 <TabPanel>
@@ -67,7 +69,7 @@ export function ModalEditarProducto() {
           </ModalBody>
 
           <ModalFooter>
-            <Button size={'sm'} colorScheme="blue" mr={1}>
+            <Button size={'sm'} colorScheme="blue" onClick={guardarProductoEditado} mr={1}>
               Guardar
             </Button>
             <Button size={'sm'} onClick={modalEditar.onClosEd}>

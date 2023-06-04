@@ -22,9 +22,8 @@ import {
 } from '@chakra-ui/react';
 import ModalEditarCategoria from '../componentes/modal/modalEditarCategoria';
 import ModalElimnar from '../componentes/modal/modalEliminar';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { ContextModal } from '../context/contextModal';
-
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -35,42 +34,19 @@ import { paginacion } from '../helpers/paginacion';
 import { ModalAddProducto } from '../componentes/modal/modalAddProducto';
 import ModalAddCategoria from '../componentes/modal/modalAddCategoria';
 import { ModalEditarProducto } from '../componentes/modal/modalEditarProductos';
+import { productos } from '../api/serviceApi';
 
-function ListaProductos() {
-  const producto = [
-    {
-      codigo: '20',
-      descripcion: 'nada por ahora',
-      precio: '2222222222',
-      existencia: '3',
-      iva: '0.2',
-    },
-    {
-      codigo: '20',
-      descripcion: 'nada por ahora',
-      precio: '233333333333',
-      existencia: '3',
-      iva: '0.2',
-    },
-    {
-      codigo: '200000000000',
-      descripcion: 'nada por ahora',
-      precio: '1',
-      existencia: '3',
-      iva: '0.2',
-    },
-    {
-      codigo: '20',
-      descripcion: 'nada por ahora',
-      precio: '2222222222',
-      existencia: '3',
-      iva: '0.2',
-    },
-  ];
-
-  return producto;
-}
 export function Productos() {
+  const [listaProductos, setListaProductos] = useState([]);
+
+  useEffect(() => {
+    productos.get('/').then((respuesta) =>{
+      const {data} = respuesta;
+      setListaProductos(data.productos);
+    });
+  },[]);
+
+
   const {
     isOpen: modalisOpenCategoria,
     onOpen: modalOnpenCategoria,
@@ -93,7 +69,7 @@ export function Productos() {
   const [paginaActualCategoria, setPaginaActualCategoria] = useState(0);
 
   const paginaSiguiente = () => {
-    if (paginaActual + CORTE < ListaProductos().length) {
+    if (paginaActual + CORTE < listaProductos.length) {
       setPaginaActual(paginaActual + CORTE);
     }
   };
@@ -103,7 +79,7 @@ export function Productos() {
     }
   };
   const paginaSiguienteCategoria = () => {
-    if (paginaActualCategoria + CORTE_CATEGORIA < ListaProductos().length) {
+    if (paginaActualCategoria + CORTE_CATEGORIA < listaProductos.length) {
       setPaginaActualCategoria(paginaActualCategoria + CORTE_CATEGORIA);
     }
   };
@@ -117,7 +93,7 @@ export function Productos() {
     modalEditar.setModalValor(producto);
   };
   const handleEditar2 = producto => {
-    modalOnpenCategoria()
+    modalOnpenCategoria();
     editarCategoria.setValorCategoria(producto);
   };
 
@@ -201,24 +177,24 @@ export function Productos() {
                     >
                       <Thead>
                         <Tr>
-                          <Th>Codigo</Th>
+                          <Th>Categoria</Th>
                           <Th>Descripcion</Th>
                           <Th isNumeric> Precio</Th>
                           <Th isNumeric> Existencias</Th>
-                          <Th isNumeric> Precio</Th>
+                          <Th isNumeric> Accion</Th>
                         </Tr>
                       </Thead>
                       <Tbody>
-                        {paginacion(ListaProductos, paginaActual, CORTE).map(
+                        {paginacion(listaProductos, paginaActual, CORTE).map(
                           (ele, id) => {
                             return (
                               <Tr key={id}>
-                                <Td>inches</Td>
+                                <Td>{ele.categoria}</Td>
                                 <Td whiteSpace="normal" maxWidth="300px">
-                                  ssssssssssssssssss
+                                  {ele.descripcion}
                                 </Td>
-                                <Td isNumeric>{ele.codigo}</Td>
-                                <Td isNumeric>{ele.iva}</Td>
+                                <Td isNumeric>{ele.precio}</Td>
+                                <Td isNumeric>{ele.cantidad}</Td>
                                 <Td>
                                   <Flex gap={3} justify={'right'}>
                                     <IconButton
@@ -320,7 +296,7 @@ export function Productos() {
                       </Thead>
                       <Tbody>
                         {paginacion(
-                          ListaProductos,
+                          listaProductos,
                           paginaActualCategoria,
                           CORTE_CATEGORIA
                         ).map((ele, id) => {
