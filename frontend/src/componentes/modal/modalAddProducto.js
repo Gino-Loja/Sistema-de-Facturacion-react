@@ -15,10 +15,22 @@ import {
   TabPanels,
   Tab,
   TabPanel,
-  Select
+  Select,
 } from '@chakra-ui/react';
+import { useRef } from 'react';
 
-export function ModalAddProducto({ onOpen, isOpen, onClose }) {
+export function ModalAddProducto({
+  onOpen,
+  isOpen,
+  onClose,
+  guardarProducto,
+  listaCategorias,
+}) {
+  const categoriaRef = useRef(null);
+  const codigoRef = useRef(null);
+  const descripcionRef = useRef(null);
+  const precioRef = useRef(null);
+  const cantiadadRef = useRef(null);
   return (
     <>
       <Modal size={'xs'} isOpen={isOpen} onClose={onClose}>
@@ -36,24 +48,48 @@ export function ModalAddProducto({ onOpen, isOpen, onClose }) {
                 <TabPanel>
                   <FormControl>
                     <FormLabel>Codigo</FormLabel>
-                    <Input size={'sm'} placeholder="Codigo" />
+                    <Input
+                      size={'sm'}
+                      ref={codigoRef}
+                      name="categoria"
+                      isRequired={true}
+                      placeholder="Codigo"
+                    />
                     <FormLabel>Descripcion</FormLabel>
-                    <Input size={'sm'} placeholder="Descripcion" />
+                    <Input
+                      ref={descripcionRef}
+                      size={'sm'}
+                      name="descripcion"
+                      isRequired
+                      placeholder="Descripcion"
+                    />
                     <FormLabel>Precio</FormLabel>
-                    <Input size={'sm'} placeholder="First name" />
+                    <Input
+                      ref={precioRef}
+                      size={'sm'}
+                      name="precio"
+                      isRequired
+                      placeholder="First name"
+                    />
                     <FormLabel>Cantidad</FormLabel>
-                    <Input size={'sm'} placeholder="Existencia" />
-                    
+                    <Input
+                      ref={cantiadadRef}
+                      size={'sm'}
+                      name="cantiadad"
+                      isRequired
+                      placeholder="Existencia"
+                    />
                   </FormControl>
                 </TabPanel>
                 <TabPanel>
                   <FormControl>
-                    <Select placeholder="Selecciona la Categoria">
-                      <option value="option1">Option 1</option>
-                      <option value="option2">Option 2</option>
-                      <option value="option3">Option 3</option>
-                      <option value="option2">Option 2</option>
-                      <option value="option3">Option 3</option>
+                  
+                    <Select isRequired placeholder="Selecciona la Categoria" ref={categoriaRef}>
+                      {listaCategorias.map((categoria, index) => (
+                        <option key={index} value={categoria.descripcion}>
+                          {categoria.descripcion}
+                        </option>
+                      ))}
                     </Select>
                   </FormControl>
                 </TabPanel>
@@ -62,7 +98,21 @@ export function ModalAddProducto({ onOpen, isOpen, onClose }) {
           </ModalBody>
 
           <ModalFooter>
-            <Button size={'sm'} colorScheme="blue" mr={1}>
+            <Button
+              size={'sm'}
+              colorScheme="blue"
+              mr={1}
+              onClick={() => {
+                guardarProducto({
+                  codigo: codigoRef.current.value,
+                  descripcion: descripcionRef.current.value,
+                  precio: precioRef.current.value,
+                  cantidad: cantiadadRef.current.value,
+                  categoria: categoriaRef.current.value,
+                });
+                onClose();
+              }}
+            >
               Guardar
             </Button>
             <Button size={'sm'} onClick={onClose}>

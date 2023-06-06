@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 export const productos = axios.create({
-    baseURL: 'http://localhost:4000/productos',
+    baseURL: 'http://localhost:4000/productos/',
 });
 
 export const categorias = axios.create({

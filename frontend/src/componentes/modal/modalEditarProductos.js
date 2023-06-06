@@ -17,12 +17,20 @@ import {
   TabPanel,
   Select,
 } from '@chakra-ui/react';
-import { React, useContext } from 'react';
+import { React, useContext, useRef } from 'react';
 import { ContextModal } from '../../context/contextModal';
-export function ModalEditarProducto() {
+export function ModalEditarProducto({
+  guardarProductoEditado,
+  listaCategorias,
+}) {
   const { modalEditar } = useContext(ContextModal);
-  const {valorModal:producto} = modalEditar;
- 
+  const { valorModal: producto } = modalEditar;
+  const categoriaRef = useRef(null);
+  const codigoRef = useRef(null);
+  const descripcionRef = useRef(null);
+  const precioRef = useRef(null);
+  const cantiadadRef = useRef(null);
+
   return (
     <>
       <Modal
@@ -43,24 +51,52 @@ export function ModalEditarProducto() {
               <TabPanels>
                 <TabPanel>
                   <FormControl>
-                    <FormLabel>Categoria</FormLabel>
-                    <Input size={'sm'} isRequired={true} placeholder="Codigo" defaultValue={producto.categoria} />
+                    <FormLabel>Codigo</FormLabel>
+                    <Input
+                      size={'sm'}
+                      ref={codigoRef}
+                      name="categoria"
+                      isRequired={true}
+                      placeholder="Codigo"
+                      defaultValue={producto.codigo}
+                    />
                     <FormLabel>Descripcion</FormLabel>
-                    <Input size={'sm'} isRequired placeholder="Descripcion" defaultValue={producto.descripcion} />
+                    <Input
+                      ref={descripcionRef}
+                      size={'sm'}
+                      name="descripcion"
+                      isRequired
+                      placeholder="Descripcion"
+                      defaultValue={producto.descripcion}
+                    />
                     <FormLabel>Precio</FormLabel>
-                    <Input size={'sm'} isRequired placeholder="First name" defaultValue={producto.precio} />
+                    <Input
+                      ref={precioRef}
+                      size={'sm'}
+                      name="precio"
+                      isRequired
+                      placeholder="First name"
+                      defaultValue={producto.precio}
+                    />
                     <FormLabel>Cantidad</FormLabel>
-                    <Input size={'sm'} isRequired placeholder="Existencia" defaultValue={producto.cantidad}/>
+                    <Input
+                      ref={cantiadadRef}
+                      size={'sm'}
+                      name="cantiadad"
+                      isRequired
+                      placeholder="Existencia"
+                      defaultValue={producto.cantidad}
+                    />
                   </FormControl>
                 </TabPanel>
                 <TabPanel>
                   <FormControl>
-                    <Select placeholder="Selecciona la Categoria">
-                      <option value="option1">Option 1</option>
-                      <option value="option2">Option 2</option>
-                      <option value="option3">Option 3</option>
-                      <option value="option2">Option 2</option>
-                      <option value="option3">Option 3</option>
+                    <Select placeholder="Selecciona la Categoria" defaultValue={producto.categoria} ref={categoriaRef}>
+                      {listaCategorias.map((categoria, index) => (
+                        <option key={index} value={categoria.descripcion}>
+                          {categoria.descripcion}
+                        </option>
+                      ))}
                     </Select>
                   </FormControl>
                 </TabPanel>
@@ -69,7 +105,21 @@ export function ModalEditarProducto() {
           </ModalBody>
 
           <ModalFooter>
-            <Button size={'sm'} colorScheme="blue" onClick={guardarProductoEditado} mr={1}>
+            <Button
+              size={'sm'}
+              colorScheme="blue"
+              onClick={() => {
+                guardarProductoEditado(producto._id, {
+                  codigo: codigoRef.current.value,
+                  descripcion: descripcionRef.current.value,
+                  precio: precioRef.current.value,
+                  cantidad: cantiadadRef.current.value,
+                  categoria: categoriaRef.current.value,
+                });
+                modalEditar.onClosEd();
+              }}
+              mr={1}
+            >
               Guardar
             </Button>
             <Button size={'sm'} onClick={modalEditar.onClosEd}>

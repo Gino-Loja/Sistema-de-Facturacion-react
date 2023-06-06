@@ -9,21 +9,20 @@ import {
   Button,
   FormControl,
   FormLabel,
-
 } from '@chakra-ui/react';
 import { React, useContext } from 'react';
 import { ContextModal } from '../../context/contextModal.js';
-export default function ModelEliminar(prop) {
+export default function ModelEliminar({ eliminar }) {
   const { isOpen, onClose } = useContext(ContextModal);
   return (
     <>
       <Modal isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay
-           bg="blackAlpha.300"
-           backdropFilter="blur(10px) hue-rotate(90deg)"
+          bg="blackAlpha.300"
+          backdropFilter="blur(10px) hue-rotate(90deg)"
         />
         <ModalContent>
-          <ModalHeader> Editar Productos</ModalHeader>
+          <ModalHeader> Eliminar</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl>
@@ -31,10 +30,20 @@ export default function ModelEliminar(prop) {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button size={"sm"} colorScheme="blue" mr={3}>
+            <Button
+              size={'sm'}
+              colorScheme="blue"
+              onClick={() => {
+                eliminar();
+                onClose();
+              }}
+              mr={3}
+            >
               Aceptar
             </Button>
-            <Button size={"sm"} onClick={onClose}>Cancelar</Button>
+            <Button size={'sm'} onClick={onClose}>
+              Cancelar
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

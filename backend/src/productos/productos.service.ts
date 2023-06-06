@@ -17,6 +17,7 @@ export class ProductosService {
         return await nuevoProducto.save();
     }
     async actualizarUnProducto(productoId: string, crearProductoDto: CrearProductoDto) {
+        
         const actualizaProducto = await this.modeloProducto.findByIdAndUpdate(productoId, crearProductoDto, {new: true,versionKey: false});
         return actualizaProducto;
     }

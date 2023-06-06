@@ -34,18 +34,68 @@ import { paginacion } from '../helpers/paginacion';
 import { ModalAddProducto } from '../componentes/modal/modalAddProducto';
 import ModalAddCategoria from '../componentes/modal/modalAddCategoria';
 import { ModalEditarProducto } from '../componentes/modal/modalEditarProductos';
-import { productos } from '../api/serviceApi';
+import { categorias, productos } from '../api/serviceApi';
 
 export function Productos() {
   const [listaProductos, setListaProductos] = useState([]);
+  const [listaCategorias, setListaCategorias] = useState([]);
+  const [eliminarId, setEliminarId] = useState('');
+  const [tipo, setTipo] = useState('');
 
-  useEffect(() => {
-    productos.get('/').then((respuesta) =>{
-      const {data} = respuesta;
+  const obtnerTodosLosProductos = () => {
+    productos.get('/').then(respuesta => {
+      const { data } = respuesta;
       setListaProductos(data.productos);
     });
-  },[]);
+  };
+  const obtnerTodosLasCategorias = () => {
+    categorias.get('/').then(respuesta => {
+      const { data } = respuesta;
+      setListaCategorias(data.categoria);
+    });
+  };
 
+  useEffect(() => {
+    obtnerTodosLosProductos();
+    obtnerTodosLasCategorias();
+  }, []);
+
+  const guardarProductoEditado = (id, producto) => {
+    productos.put(`actualizar?productoId=${id}`, producto).then(respuesta => {
+      obtnerTodosLosProductos();
+    });
+  };
+
+  const guardarCategoriaEditada = (id, categoria) => {
+    categorias
+      .put(`actualizar?categoriaId=${id}`, categoria)
+      .then(respuesta => {
+        obtnerTodosLasCategorias();
+      });
+  };
+  const guardarProducto = producto => {
+    productos.post(`crear`, producto).then(respuesta => {
+      console.log(respuesta);
+      obtnerTodosLosProductos();
+    });
+  };
+  const guardarCategoria = categoria => {
+    categorias.post(`crear`, categoria).then(respuesta => {
+      console.log(respuesta);
+      obtnerTodosLasCategorias();
+    });
+  };
+
+  const eliminarProducto = id => {
+    productos.delete(`eliminar?productoId=${id}`).then(respuesta => {
+      obtnerTodosLosProductos();
+    });
+  };
+  const eliminarCategoria = id => {
+    categorias.delete(`eliminar?categoriaId=${id}`).then(respuesta => {
+      obtnerTodosLasCategorias();
+    });
+  };
 
   const {
     isOpen: modalisOpenCategoria,
@@ -96,21 +146,39 @@ export function Productos() {
     modalOnpenCategoria();
     editarCategoria.setValorCategoria(producto);
   };
+  const handleEliminar = productoId => {
+    onOpen();
+    setEliminarId(productoId);
+  };
 
   return (
     <>
+      {console.log(tipo)}
       <ModalEditarCategoria
         isOpen={modalisOpenCategoria}
         onClose={modalOncloseCategoria}
+        guardarCategoriaEditada={guardarCategoriaEditada}
       ></ModalEditarCategoria>
-      <ModalElimnar></ModalElimnar>
+      <ModalElimnar
+        eliminar={() =>
+          tipo === 0
+            ? eliminarProducto(eliminarId)
+            : eliminarCategoria(eliminarId)
+        }
+      ></ModalElimnar>
       <ModalAddProducto
         onOpen={modalOnOpenUser}
         onClose={modalOnCloseUser}
         isOpen={modalIsOpenUser}
+        guardarProducto={guardarProducto}
+        listaCategorias={listaCategorias}
       ></ModalAddProducto>
-      <ModalEditarProducto></ModalEditarProducto>
+      <ModalEditarProducto
+        guardarProductoEditado={guardarProductoEditado}
+        listaCategorias={listaCategorias}
+      ></ModalEditarProducto>
       <ModalAddCategoria
+        guardarCategoria={guardarCategoria}
         isOpen={isOpenCategoria}
         onClose={onCloseCategoria}
       ></ModalAddCategoria>
@@ -153,7 +221,13 @@ export function Productos() {
             </Flex>
           </Box>
 
-          <Tabs marginBlock={2} size={'xs'} isFitted variant="enclosed">
+          <Tabs
+            onChange={index => setTipo(index)}
+            marginBlock={2}
+            size={'xs'}
+            isFitted
+            variant="enclosed"
+          >
             <TabList fontSize={'md'} size={'sm'} mb="3">
               <Tab>Productos</Tab>
               <Tab>Categoria</Tab>
@@ -210,7 +284,7 @@ export function Productos() {
                                       size={'xs'}
                                       colorScheme="red"
                                       icon={<DeleteIcon />}
-                                      onClick={onOpen}
+                                      onClick={() => handleEliminar(ele._id)}
                                       margin={1}
                                     ></IconButton>
                                   </Flex>
@@ -289,25 +363,21 @@ export function Productos() {
                       <Thead>
                         <Tr>
                           <Th>Codigo</Th>
-                          <Th>Nombre</Th>
                           <Th> Descripcion</Th>
                           <Th> Accion </Th>
                         </Tr>
                       </Thead>
                       <Tbody>
                         {paginacion(
-                          listaProductos,
+                          listaCategorias,
                           paginaActualCategoria,
                           CORTE_CATEGORIA
                         ).map((ele, id) => {
                           return (
                             <Tr key={id}>
-                              <Td>inches</Td>
-                              <Td whiteSpace="normal" maxWidth="300px">
-                                ssssssssssssssssss
-                              </Td>
+                             
                               <Td>{ele.codigo}</Td>
-
+                              <Td>{ele.descripcion}</Td>
                               <Td>
                                 <Flex gap={3} justify={'left'}>
                                   <IconButton
@@ -323,7 +393,7 @@ export function Productos() {
                                     size={'xs'}
                                     colorScheme="red"
                                     icon={<DeleteIcon />}
-                                    onClick={onOpen}
+                                    onClick={()=>handleEliminar(ele._id)}
                                     margin={1}
                                   ></IconButton>
                                 </Flex>

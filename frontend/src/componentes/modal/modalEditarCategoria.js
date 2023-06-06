@@ -11,20 +11,17 @@ import {
   FormLabel,
   Input,
 } from '@chakra-ui/react';
-import { React, useContext } from 'react';
+import { React, useContext, useRef } from 'react';
 import { ContextModal } from '../../context/contextModal';
-export default function ModalEditarCategoria({isOpen, onClose}) {
+export default function ModalEditarCategoria({ isOpen, onClose, guardarCategoriaEditada }) {
+  const descripcionRef = useRef(null);
+  const codigoRef = useRef(null);
   const { editarCategoria } = useContext(ContextModal);
+  const { valorCategoria } = editarCategoria;
 
   return (
     <>
-    {console.log(editarCategoria)}
-      <Modal
-        isCentered
-        isOpen={isOpen}
-        onClose={onClose}
-        size={'sm'}
-      >
+      <Modal isCentered isOpen={isOpen} onClose={onClose} size={'sm'}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader> Editar Categoria</ModalHeader>
@@ -32,15 +29,22 @@ export default function ModalEditarCategoria({isOpen, onClose}) {
           <ModalBody>
             <FormControl>
               <FormLabel>Codigo</FormLabel>
-              <Input size={'sm'} />
+              <Input defaultValue={valorCategoria.codigo} size={'sm'} ref={codigoRef} />
               <FormLabel>Nombre</FormLabel>
-              <Input size={'sm'} />
-              <FormLabel>Descripcion</FormLabel>
-              <Input size={'sm'} />
+
+              <Input defaultValue={valorCategoria.descripcion} size={'sm'} ref={descripcionRef} />
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button size={'sm'} colorScheme="blue" mr={3}>
+            <Button size={'sm'} colorScheme="blue" mr={3} onClick={()=>{
+              console.log(valorCategoria)
+              guardarCategoriaEditada(valorCategoria._id, {
+                descripcion: descripcionRef.current.value,
+               
+                codigo: codigoRef.current.value
+              });
+              onClose();
+            }}>
               Guardar
             </Button>
             <Button size={'sm'} onClick={onClose}>
