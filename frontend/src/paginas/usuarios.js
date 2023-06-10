@@ -31,12 +31,26 @@ import ModalElimnar from '../componentes/modal/modalEliminar';
 
 export function Usuarios() {
   const [listaUsuarios, setListaUsuarios] = useState([]);
-  const [editarUsuario, setEditarUsuario] = useState({});
-  const [eliminarId, setEliminarId] = useState("");
+  const [editarUsuario, setEditarUsuario] = useState({
+    nombres: '',
+    usuarios: '',
+    password: '',
+    cargo: {
+      empleado: false,
+      administrador: false,
+    },
+    contacto: {
+      email: '',
+      telefono: '',
+      direccion: '',
+    },
+  });
+  const [eliminarId, setEliminarId] = useState('');
 
   const obtnerTodosLosUsuarios = () => {
     usuarios.get('/').then(respuesta => {
       const { data } = respuesta;
+      console.log(data.usuarios)
       setListaUsuarios(data.usuarios);
     });
   };
@@ -95,9 +109,9 @@ export function Usuarios() {
         onOpen={modalOnOpen}
         onClose={modalOnClose}
         isOpen={modalIsOpen}
-        guardarUsuarios={guardarUsuario()}
+        guardarUsuarios={guardarUsuario}
       ></ModalAddUsuario>
-      <ModalElimnar eliminar={()=>eliminarUsuario(eliminarId)}></ModalElimnar>
+      <ModalElimnar eliminar={() => eliminarUsuario(eliminarId)}></ModalElimnar>
       <Box h={'95%'}>
         <Box h={'100%'}>
           <Box

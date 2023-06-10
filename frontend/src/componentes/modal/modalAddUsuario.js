@@ -96,11 +96,11 @@ export function ModalAddUsuario({ onOpen, isOpen, onClose, guardarUsuarios }) {
               onClick={() => {
                 guardarUsuarios({
                   nombres: nombreRef.current.value,
-                  usuarios: usuarioRef.current.value,
+                  usuario: usuarioRef.current.value,
                   password: passwordRef.current.value,
                   cargo: {
-                    empleado: cargoRef === 'Empleado' ? true : false,
-                    administrador: cargoRef === 'Administrador' ? true : false,
+                    empleado: cargoRef.current.value=== 'Empleado' ? true : false,
+                    administrador: cargoRef.current.value === 'Administrador' ? true : false,
                   },
                   contacto: {
                     email: emailRef.current.value,
@@ -108,6 +108,7 @@ export function ModalAddUsuario({ onOpen, isOpen, onClose, guardarUsuarios }) {
                     direccion: direccionRef.current.value,
                   },
                 });
+                onClose()
               }}
               colorScheme="blue"
               mr={1}

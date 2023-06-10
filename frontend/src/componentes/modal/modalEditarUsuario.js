@@ -81,25 +81,30 @@ export function ModalEditarUsuario({ guardarUsuarioEditado, usuario }) {
                       ref={cargoRef}
                       size={'sm'}
                     >
-                      <option value='Administrador'>Administrador</option>
-                      <option value='Empleado'>Vendedor</option>
+                      <option value="Administrador">Administrador</option>
+                      <option value="Empleado">Empleado</option>
                     </Select>
                   </FormControl>
                 </TabPanel>
                 <TabPanel>
                   <FormControl>
                     <FormLabel>Email</FormLabel>
-                    <Input defaultValue={usuario.contacto.email} ref={emailRef} size={'sm'} placeholder="Correo" />
+                    <Input
+                      defaultValue={usuario.contacto.email}
+                      ref={emailRef}
+                      size={'sm'}
+                      placeholder="Correo"
+                    />
                     <FormLabel>Telefono</FormLabel>
                     <Input
-                    defaultValue={usuario.contacto.telefono}
+                      defaultValue={usuario.contacto.telefono}
                       ref={telefonoRef}
                       size={'sm'}
                       placeholder="Celular"
                     />
                     <FormLabel>Direccion</FormLabel>
                     <Input
-                    defaultValue={usuario.contacto.direccion}
+                      defaultValue={usuario.contacto.direccion}
                       ref={direccionRef}
                       size={'sm'}
                       placeholder="Direccion"
@@ -116,13 +121,15 @@ export function ModalEditarUsuario({ guardarUsuarioEditado, usuario }) {
               colorScheme="blue"
               mr={1}
               onClick={() => {
-                guardarUsuarioEditado({
+                guardarUsuarioEditado(usuario._id,{
                   nombres: nombreRef.current.value,
                   usuarios: usuarioRef.current.value,
                   password: passwordRef.current.value,
                   cargo: {
-                    empleado: cargoRef === 'Empleado' ? true : false,
-                    administrador: cargoRef === 'Administrador' ? true : false,
+                    empleado:
+                      cargoRef.current.value === 'Empleado' ? true : false,
+                    administrador:
+                      cargoRef.current.value === 'Administrador' ? true : false,
                   },
                   contacto: {
                     email: emailRef.current.value,

@@ -32,7 +32,18 @@ import { clientes } from '../api/serviceApi';
 
 export function Clientes() {
   const [listaClientes, setListaClientes] = useState([]);
-  const [editarCliente, setEditarCliente] = useState({});
+  const [editarCliente, setEditarCliente] = useState({
+    nombre: '',
+    apellido: '',
+    email: '',
+    telefono: '',
+    direccion: {
+      calle: '',
+      ciudad: '',
+      provincia: '',
+      pais: '',
+    },
+  });
   const [eliminarId, setEliminarId] = useState('');
   const { onOpen, modalEditar } = useContext(ContextModal);
   const [paginaActual, setPaginaActual] = useState(0);
@@ -57,7 +68,8 @@ export function Clientes() {
   const obtnerTodosLosClientes = () => {
     clientes.get('/').then(respuesta => {
       const { data } = respuesta;
-      setListaClientes(data.usuarios);
+
+      setListaClientes(data.clientes);
     });
   };
   const guardarUnClienteEditado = (id, usuario) => {
@@ -79,7 +91,7 @@ export function Clientes() {
 
   useEffect(() => {
     obtnerTodosLosClientes();
-  });
+  }, []);
   return (
     <>
       <ModalEditarCliente
@@ -146,12 +158,11 @@ export function Clientes() {
               >
                 <Thead>
                   <Tr>
-                    <Th>Id</Th>
                     <Th>Nombres</Th>
-                    <Th> Apellido</Th>
                     <Th> Email</Th>
                     <Th> Telefono</Th>
                     <Th> Ciudad</Th>
+                    <Th isNumeric> Accion</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -159,14 +170,14 @@ export function Clientes() {
                     (cliente, id) => {
                       return (
                         <Tr key={id}>
-                          <Td>{id}</Td>
+                          <Td>{cliente.nombre + ' ' + cliente.apellido}</Td>
                           <Td whiteSpace="normal" maxWidth="300px">
-                            ssssssssssssssssss
+                            {cliente.email}
                           </Td>
-                          <Td>{cliente.codigo}</Td>
-                          <Td>{cliente.iva}</Td>
-                          <Td>{cliente.iva}</Td>
-                          <Td>
+                          <Td>{cliente.telefono}</Td>
+                          <Td>{cliente.direccion.ciudad}</Td>
+                          
+                          <Td isNumeric>
                             <Flex gap={3} justify={'right'}>
                               <IconButton
                                 size={'xs'}

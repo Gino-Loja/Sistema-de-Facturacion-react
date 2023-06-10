@@ -17,18 +17,18 @@ import {
   TabPanel,
 } from '@chakra-ui/react';
 import { ContextModal } from '../../context/contextModal';
-import { React, useContext, Ref } from 'react';
+import { React, useContext, useRef } from 'react';
 export function ModalEditarCliente({ guardarClienteEditado, cliente }) {
-  const nombreRef = Ref(null);
-  const apellidoRef = Ref(null);
+  const nombreRef = useRef(null);
+  const apellidoRef = useRef(null);
 
-  const emailRef = Ref(null);
-  const telefonoRef = Ref(null);
-  const calleRef = Ref(null);
-  const ciudadRef = Ref(null);
-  const provinciaRef = Ref(null);
-  const paisRef = Ref(null);
-
+  const emailRef = useRef(null);
+  const telefonoRef = useRef(null);
+  const calleRef = useRef(null);
+  const ciudadRef = useRef(null);
+  const provinciaRef = useRef(null);
+  const paisRef = useRef(null);
+  console.log(cliente)
   const { modalEditar } = useContext(ContextModal);
   return (
     <>
@@ -54,21 +54,21 @@ export function ModalEditarCliente({ guardarClienteEditado, cliente }) {
                     <Input
                       ref={nombreRef}
                       size={'sm'}
-                      defaultValue={cliente.nombres}
+                      defaultValue={cliente.nombre}
                       placeholder="First name"
                     />
                     <FormLabel>Apellido</FormLabel>
                     <Input
                       ref={apellidoRef}
                       size={'sm'}
-                      defaultValue={cliente.usuario}
+                      defaultValue={cliente.apellido}
                       placeholder="First name"
                     />
                     <FormLabel>Email</FormLabel>
                     <Input
                       size={'sm'}
                       ref={emailRef}
-                      defaultValue={cliente.password}
+                      defaultValue={cliente.email}
                       placeholder="First name"
                     />
                     <FormLabel>Telefono</FormLabel>
@@ -121,16 +121,17 @@ export function ModalEditarCliente({ guardarClienteEditado, cliente }) {
               size={'sm'}
               colorScheme="blue"
               onClick={() => {
+                modalEditar.onClosEd()
                 guardarClienteEditado(cliente._id, {
-                  nombre: nombreRef,
-                  apellido: apellidoRef,
-                  email: emailRef,
-                  telefono: telefonoRef,
+                  nombre: nombreRef.current.value ,
+                  apellido: apellidoRef.current.value,
+                  email: emailRef.current.value,
+                  telefono: telefonoRef.current.value,
                   direccion: {
-                    calle: calleRef,
-                    ciudad: ciudadRef,
-                    provincia: provinciaRef,
-                    pais: paisRef,
+                    calle: calleRef.current.value,
+                    ciudad: ciudadRef.current.value,
+                    provincia: provinciaRef.current.value,
+                    pais: paisRef.current.value,
                   },
                 });
               }}

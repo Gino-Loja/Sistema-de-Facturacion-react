@@ -16,17 +16,17 @@ import {
   Tab,
   TabPanel,
 } from '@chakra-ui/react';
-import { Ref } from 'react';
-export function ModalAdd({ onOpen, isOpen, onClose , guardarCliente}) {
-  const nombreRef = Ref(null);
-  const apellidoRef = Ref(null);
+import { useRef } from 'react';
+export function ModalAdd({ onOpen, isOpen, onClose, guardarCliente }) {
+  const nombreRef = useRef(null);
+  const apellidoRef = useRef(null);
 
-  const emailRef = Ref(null);
-  const telefonoRef = Ref(null);
-  const calleRef = Ref(null);
-  const ciudadRef = Ref(null);
-  const provinciaRef = Ref(null);
-  const paisRef = Ref(null);
+  const emailRef = useRef(null);
+  const telefonoRef = useRef(null);
+  const calleRef = useRef(null);
+  const ciudadRef = useRef(null);
+  const provinciaRef = useRef(null);
+  const paisRef = useRef(null);
 
   return (
     <>
@@ -99,7 +99,26 @@ export function ModalAdd({ onOpen, isOpen, onClose , guardarCliente}) {
           </ModalBody>
 
           <ModalFooter>
-            <Button size={'sm'} colorScheme="blue" mr={1}>
+            <Button
+              size={'sm'}
+              colorScheme="blue"
+              onClick={() => {
+                guardarCliente({
+                  nombre: nombreRef.current.value,
+                  apellido: apellidoRef.current.value,
+                  email: emailRef.current.value,
+                  telefono: telefonoRef.current.value,
+                  direccion: {
+                    calle: calleRef.current.value,
+                    ciudad: ciudadRef.current.value,
+                    provincia: provinciaRef.current.value,
+                    pais: paisRef.current.value,
+                  },
+                });
+                onClose();
+              }}
+              mr={1}
+            >
               Guardar
             </Button>
             <Button size={'sm'} onClick={onClose}>
