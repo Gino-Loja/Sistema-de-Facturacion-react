@@ -18,9 +18,17 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { ContextModal } from '../../context/contextModal';
-import { React, useContext } from 'react';
-export function ModalEditarUsuario() {
+import { React, useContext, useRef } from 'react';
+
+export function ModalEditarUsuario({ guardarUsuarioEditado, usuario }) {
   const { modalEditar } = useContext(ContextModal);
+  const nombreRef = useRef(null);
+  const usuarioRef = useRef(null);
+  const passwordRef = useRef(null);
+  const cargoRef = useRef(null);
+  const emailRef = useRef(null);
+  const telefonoRef = useRef(null);
+  const direccionRef = useRef(null);
 
   return (
     <>
@@ -43,26 +51,59 @@ export function ModalEditarUsuario() {
                 <TabPanel>
                   <FormControl>
                     <FormLabel>Nombres</FormLabel>
-                    <Input size={'sm'} placeholder="Nombre y apellido" />
+                    <Input
+                      size={'sm'}
+                      ref={nombreRef}
+                      defaultValue={usuario.nombres}
+                      placeholder="Nombre y apellido"
+                    />
                     <FormLabel>Usuario</FormLabel>
-                    <Input size={'sm'} placeholder="usuario" />
+                    <Input
+                      defaultValue={usuario.usuario}
+                      size={'sm'}
+                      ref={usuarioRef}
+                      placeholder="usuario"
+                    />
                     <FormLabel>Password</FormLabel>
-                    <Input size={'sm'} placeholder="Contrasena" />
+                    <Input
+                      size={'sm'}
+                      defaultValue={usuario.password}
+                      ref={passwordRef}
+                      placeholder="Contrasena"
+                    />
                     <FormLabel>Cargo</FormLabel>
-                    <Select size={'sm'}>
-                      <option value="option1">Administrador</option>
-                      <option value="option2">Vendedor</option>
+                    <Select
+                      defaultValue={
+                        usuario.cargo.administrador === true
+                          ? 'Administrador'
+                          : 'Empleado'
+                      }
+                      ref={cargoRef}
+                      size={'sm'}
+                    >
+                      <option value='Administrador'>Administrador</option>
+                      <option value='Empleado'>Vendedor</option>
                     </Select>
                   </FormControl>
                 </TabPanel>
                 <TabPanel>
                   <FormControl>
                     <FormLabel>Email</FormLabel>
-                    <Input size={'sm'} placeholder="Correo" />
+                    <Input defaultValue={usuario.contacto.email} ref={emailRef} size={'sm'} placeholder="Correo" />
                     <FormLabel>Telefono</FormLabel>
-                    <Input size={'sm'} placeholder="Celular" />
-                    <FormLabel>Ciudad</FormLabel>
-                    <Input size={'sm'} placeholder="Ciudad" />
+                    <Input
+                    defaultValue={usuario.contacto.telefono}
+                      ref={telefonoRef}
+                      size={'sm'}
+                      placeholder="Celular"
+                    />
+                    <FormLabel>Direccion</FormLabel>
+                    <Input
+                    defaultValue={usuario.contacto.direccion}
+                      ref={direccionRef}
+                      size={'sm'}
+                      placeholder="Direccion"
+                    />
                   </FormControl>
                 </TabPanel>
               </TabPanels>
@@ -70,7 +111,28 @@ export function ModalEditarUsuario() {
           </ModalBody>
 
           <ModalFooter>
-            <Button size={'sm'} colorScheme="blue" mr={1}>
+            <Button
+              size={'sm'}
+              colorScheme="blue"
+              mr={1}
+              onClick={() => {
+                guardarUsuarioEditado({
+                  nombres: nombreRef.current.value,
+                  usuarios: usuarioRef.current.value,
+                  password: passwordRef.current.value,
+                  cargo: {
+                    empleado: cargoRef === 'Empleado' ? true : false,
+                    administrador: cargoRef === 'Administrador' ? true : false,
+                  },
+                  contacto: {
+                    email: emailRef.current.value,
+                    telefono: telefonoRef.current.value,
+                    direccion: direccionRef.current.value,
+                  },
+                });
+                modalEditar.onClosEd();
+              }}
+            >
               Guardar
             </Button>
             <Button size={'sm'} onClick={modalEditar.onClosEd}>

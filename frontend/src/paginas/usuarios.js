@@ -21,31 +21,29 @@ import {
   EditIcon,
   DeleteIcon,
 } from '@chakra-ui/icons';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ContextModal } from '../context/contextModal';
 import { paginacion } from '../helpers/paginacion';
 import { ModalAddUsuario } from '../componentes/modal/modalAddUsuario';
 import { ModalEditarUsuario } from '../componentes/modal/modalEditarUsuario';
+import { usuarios } from '../api/serviceApi';
 import ModalElimnar from '../componentes/modal/modalEliminar';
 
-function ListaUsuarios() {
-  const producto = [
-    {
-      id: '1',
-      nombres: 'nada por ahora',
-      apellido: '2444',
-      usuario: 'gino',
-      cargo: 'vendedor',
-      estado: 'Activo',
-      email: '3',
-      telefono: '0.2',
-      password: '1234',
-    },
-  ];
-
-  return producto;
-}
 export function Usuarios() {
+  const [listaUsuarios, setListaUsuarios] = useState([]);
+  const [editarUsuario, setEditarUsuario] = useState({});
+  const [eliminarId, setEliminarId] = useState("");
+
+  const obtnerTodosLosUsuarios = () => {
+    usuarios.get('/').then(respuesta => {
+      const { data } = respuesta;
+      setListaUsuarios(data.usuarios);
+    });
+  };
+  useEffect(() => {
+    obtnerTodosLosUsuarios();
+  }, []);
+
   const { onOpen, modalEditar } = useContext(ContextModal);
   const [paginaActual, setPaginaActual] = useState(0);
   const CORTE = 9;
@@ -55,13 +53,13 @@ export function Usuarios() {
     onClose: modalOnClose,
   } = useDisclosure();
 
-  const handleEditar = producto => {
+  const handleEditar = usuario => {
     modalEditar.onOpenEd();
-    modalEditar.setModalValor(producto);
+    setEditarUsuario(usuario);
   };
 
   const paginaSiguiente = () => {
-    if (paginaActual + CORTE < ListaUsuarios().length) {
+    if (paginaActual + CORTE < listaUsuarios.length) {
       setPaginaActual(paginaActual + CORTE);
     }
   };
@@ -70,16 +68,36 @@ export function Usuarios() {
       setPaginaActual(paginaActual - CORTE);
     }
   };
+  const guardarUsuarioEditado = (id, usuario) => {
+    usuarios.put(`actualizar?usuarioId=${id}`, usuario).then(respuesta => {
+      obtnerTodosLosUsuarios();
+    });
+  };
+  const guardarUsuario = usuario => {
+    usuarios.post(`crear`, usuario).then(respuesta => {
+      obtnerTodosLosUsuarios();
+    });
+  };
+
+  const eliminarUsuario = id => {
+    usuarios.delete(`eliminar?usuarioId=${id}`).then(respuesta => {
+      obtnerTodosLosUsuarios();
+    });
+  };
 
   return (
     <>
-      <ModalEditarUsuario></ModalEditarUsuario>
+      <ModalEditarUsuario
+        guardarUsuarioEditado={guardarUsuarioEditado}
+        usuario={editarUsuario}
+      ></ModalEditarUsuario>
       <ModalAddUsuario
         onOpen={modalOnOpen}
         onClose={modalOnClose}
         isOpen={modalIsOpen}
+        guardarUsuarios={guardarUsuario()}
       ></ModalAddUsuario>
-      <ModalElimnar></ModalElimnar>
+      <ModalElimnar eliminar={()=>eliminarUsuario(eliminarId)}></ModalElimnar>
       <Box h={'95%'}>
         <Box h={'100%'}>
           <Box
@@ -133,26 +151,30 @@ export function Usuarios() {
               >
                 <Thead>
                   <Tr>
-                    <Th>Id</Th>
                     <Th>Nombres</Th>
-                    <Th> Cargo</Th>
+                    <Th> Usuario</Th>
+                    <Th> Password</Th>
                     <Th> Email</Th>
-                    <Th> Telefono</Th>
-                    <Th> Estado</Th>
+                    <Th> Cargo</Th>
+                    <Th> Accion</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {paginacion(ListaUsuarios, paginaActual, CORTE).map(
-                    (ele, id) => {
+                  {paginacion(listaUsuarios, paginaActual, CORTE).map(
+                    (usuario, id) => {
                       return (
                         <Tr key={id}>
-                          <Td>{id}</Td>
+                          <Td>{usuario.nombres}</Td>
                           <Td whiteSpace="normal" maxWidth="300px">
-                            ssssssssssssssssss
+                            {usuario.usuario}
                           </Td>
-                          <Td>{ele.codigo}</Td>
-                          <Td>{ele.iva}</Td>
-                          <Td>{ele.iva}</Td>
+                          <Td>{usuario.password}</Td>
+                          <Td>{usuario.contacto.email}</Td>
+                          <Td>
+                            {usuario.cargo.administrador
+                              ? 'administrador'
+                              : 'Empleado'}
+                          </Td>
                           <Td>
                             <Flex gap={3} justify={'right'}>
                               <IconButton
@@ -160,7 +182,7 @@ export function Usuarios() {
                                 aria-label="Search database"
                                 colorScheme="green"
                                 icon={<EditIcon />}
-                                onClick={() => handleEditar(ele)}
+                                onClick={() => handleEditar(usuario)}
                                 margin={1}
                               />
                               <IconButton
@@ -168,7 +190,10 @@ export function Usuarios() {
                                 aria-label="Search database"
                                 colorScheme="red"
                                 icon={<DeleteIcon />}
-                                onClick={onOpen}
+                                onClick={() => {
+                                  onOpen();
+                                  setEliminarId(usuario._id);
+                                }}
                                 margin={1}
                               ></IconButton>
                             </Flex>

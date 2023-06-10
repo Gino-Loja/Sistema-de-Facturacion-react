@@ -17,7 +17,16 @@ import {
   TabPanel,
   Select,
 } from '@chakra-ui/react';
-export function ModalAddUsuario({ onOpen, isOpen, onClose }) {
+import { useRef } from 'react';
+export function ModalAddUsuario({ onOpen, isOpen, onClose, guardarUsuarios }) {
+  const nombreRef = useRef(null);
+  const usuarioRef = useRef(null);
+  const passwordRef = useRef(null);
+  const cargoRef = useRef(null);
+  const emailRef = useRef(null);
+  const telefonoRef = useRef(null);
+  const direccionRef = useRef(null);
+
   return (
     <>
       <Modal size={'xs'} isOpen={isOpen} onClose={onClose}>
@@ -35,27 +44,46 @@ export function ModalAddUsuario({ onOpen, isOpen, onClose }) {
                 <TabPanel>
                   <FormControl>
                     <FormLabel>Nombres</FormLabel>
-                    <Input size={'sm'} placeholder="Nombre y apellido" />
+                    <Input
+                      size={'sm'}
+                      ref={nombreRef}
+                      placeholder="Nombre y apellido"
+                    />
                     <FormLabel>Usuario</FormLabel>
-                    <Input size={'sm'} placeholder="usuario" />
+                    <Input size={'sm'} ref={usuarioRef} placeholder="usuario" />
                     <FormLabel>Password</FormLabel>
-                    <Input size={'sm'} placeholder="Contrasena" />
+                    <Input
+                      size={'sm'}
+                      ref={passwordRef}
+                      placeholder="Contrasena"
+                    />
                     <FormLabel>Cargo</FormLabel>
-                    <Select size={'sm'}>
-                      <option value="option1">Administrador</option>
-                      <option value="option2">Vendedor</option>
-
+                    <Select
+                      defaultValue={'Vendedor'}
+                      ref={cargoRef}
+                      size={'sm'}
+                    >
+                      <option value="Administrador">Administrador</option>
+                      <option value="Empleado">Vendedor</option>
                     </Select>
                   </FormControl>
                 </TabPanel>
                 <TabPanel>
                   <FormControl>
                     <FormLabel>Email</FormLabel>
-                    <Input size={'sm'} placeholder="Correo" />
+                    <Input ref={emailRef} size={'sm'} placeholder="Correo" />
                     <FormLabel>Telefono</FormLabel>
-                    <Input size={'sm'} placeholder="Celular" />
+                    <Input
+                      ref={telefonoRef}
+                      size={'sm'}
+                      placeholder="Celular"
+                    />
                     <FormLabel>Ciudad</FormLabel>
-                    <Input size={'sm'} placeholder="Ciudad" />
+                    <Input
+                      ref={direccionRef}
+                      size={'sm'}
+                      placeholder="Direccion"
+                    />
                   </FormControl>
                 </TabPanel>
               </TabPanels>
@@ -63,7 +91,27 @@ export function ModalAddUsuario({ onOpen, isOpen, onClose }) {
           </ModalBody>
 
           <ModalFooter>
-            <Button size={'sm'} colorScheme="blue" mr={1}>
+            <Button
+              size={'sm'}
+              onClick={() => {
+                guardarUsuarios({
+                  nombres: nombreRef.current.value,
+                  usuarios: usuarioRef.current.value,
+                  password: passwordRef.current.value,
+                  cargo: {
+                    empleado: cargoRef === 'Empleado' ? true : false,
+                    administrador: cargoRef === 'Administrador' ? true : false,
+                  },
+                  contacto: {
+                    email: emailRef.current.value,
+                    telefono: telefonoRef.current.value,
+                    direccion: direccionRef.current.value,
+                  },
+                });
+              }}
+              colorScheme="blue"
+              mr={1}
+            >
               Guardar
             </Button>
             <Button size={'sm'} onClick={onClose}>

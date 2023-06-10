@@ -75,13 +75,11 @@ export function Productos() {
   };
   const guardarProducto = producto => {
     productos.post(`crear`, producto).then(respuesta => {
-      console.log(respuesta);
       obtnerTodosLosProductos();
     });
   };
   const guardarCategoria = categoria => {
     categorias.post(`crear`, categoria).then(respuesta => {
-      console.log(respuesta);
       obtnerTodosLasCategorias();
     });
   };

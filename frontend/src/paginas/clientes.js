@@ -22,27 +22,18 @@ import {
   EditIcon,
   DeleteIcon,
 } from '@chakra-ui/icons';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { ContextModal } from '../context/contextModal';
 import { ModalAdd } from '../componentes/modal/modalAddCliente';
 import { ModalEditarCliente } from '../componentes/modal/modalEditarCliente';
 import { paginacion } from '../helpers/paginacion';
+import { clientes } from '../api/serviceApi';
 //import { paginacion } from '../helpers/paginacion';
 
-function ListaUsuarios() {
-  const producto = [
-    {
-      id: '1',
-      nombres: 'nada por ahora',
-      apellido: '2444',
-      email: '3',
-      telefono: '0.2',
-    },
-  ];
-
-  return producto;
-}
 export function Clientes() {
+  const [listaClientes, setListaClientes] = useState([]);
+  const [editarCliente, setEditarCliente] = useState({});
+  const [eliminarId, setEliminarId] = useState('');
   const { onOpen, modalEditar } = useContext(ContextModal);
   const [paginaActual, setPaginaActual] = useState(0);
   const CORTE = 9;
@@ -52,13 +43,8 @@ export function Clientes() {
     onClose: modalOnClose,
   } = useDisclosure();
 
-  const handleEditar = producto => {
-    modalEditar.onOpenEd();
-    modalEditar.setModalValor(producto);
-  };
-
   const paginaSiguiente = () => {
-    if (paginaActual + CORTE < ListaUsuarios().length) {
+    if (paginaActual + CORTE < listaClientes.length) {
       setPaginaActual(paginaActual + CORTE);
     }
   };
@@ -68,11 +54,41 @@ export function Clientes() {
     }
   };
 
+  const obtnerTodosLosClientes = () => {
+    clientes.get('/').then(respuesta => {
+      const { data } = respuesta;
+      setListaClientes(data.usuarios);
+    });
+  };
+  const guardarUnClienteEditado = (id, usuario) => {
+    clientes.put(`actualizar?clienteId=${id}`, usuario).then(respuesta => {
+      obtnerTodosLosClientes();
+    });
+  };
+  const guardarCliente = usuario => {
+    clientes.post(`crear`, usuario).then(respuesta => {
+      obtnerTodosLosClientes();
+    });
+  };
+
+  const eliminarCliente = id => {
+    clientes.delete(`eliminar?clienteId=${id}`).then(respuesta => {
+      obtnerTodosLosClientes();
+    });
+  };
+
+  useEffect(() => {
+    obtnerTodosLosClientes();
+  });
   return (
     <>
-      <ModalEditarCliente></ModalEditarCliente>
-      <ModalElimnar></ModalElimnar>
+      <ModalEditarCliente
+        guardarClienteEditado={guardarUnClienteEditado}
+        cliente={editarCliente}
+      ></ModalEditarCliente>
+      <ModalElimnar eliminar={() => eliminarCliente(eliminarId)}></ModalElimnar>
       <ModalAdd
+        guardarCliente={guardarCliente}
         onOpen={modalOnOpen}
         onClose={modalOnClose}
         isOpen={modalIsOpen}
@@ -139,17 +155,17 @@ export function Clientes() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {paginacion(ListaUsuarios, paginaActual, CORTE).map(
-                    (ele, id) => {
+                  {paginacion(listaClientes, paginaActual, CORTE).map(
+                    (cliente, id) => {
                       return (
                         <Tr key={id}>
                           <Td>{id}</Td>
                           <Td whiteSpace="normal" maxWidth="300px">
                             ssssssssssssssssss
                           </Td>
-                          <Td>{ele.codigo}</Td>
-                          <Td>{ele.iva}</Td>
-                          <Td>{ele.iva}</Td>
+                          <Td>{cliente.codigo}</Td>
+                          <Td>{cliente.iva}</Td>
+                          <Td>{cliente.iva}</Td>
                           <Td>
                             <Flex gap={3} justify={'right'}>
                               <IconButton
@@ -157,7 +173,10 @@ export function Clientes() {
                                 aria-label="Search database"
                                 colorScheme="green"
                                 icon={<EditIcon />}
-                                onClick={() => handleEditar(ele)}
+                                onClick={() => {
+                                  modalEditar.onOpenEd();
+                                  setEditarCliente(cliente);
+                                }}
                                 margin={1}
                               />
                               <IconButton
@@ -165,7 +184,10 @@ export function Clientes() {
                                 aria-label="Search database"
                                 colorScheme="red"
                                 icon={<DeleteIcon />}
-                                onClick={onOpen}
+                                onClick={() => {
+                                  onOpen();
+                                  setEliminarId(cliente._id);
+                                }}
                                 margin={1}
                               ></IconButton>
                             </Flex>
