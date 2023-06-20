@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import mongoose ,{ Schema } from 'mongoose';
 
 
 export const ProductoSchemas = new Schema(
@@ -11,3 +11,6 @@ export const ProductoSchemas = new Schema(
     },
     { versionKey: false }
 )
+
+
+

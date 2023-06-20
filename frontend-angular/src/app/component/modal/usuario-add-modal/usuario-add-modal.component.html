@@ -1,0 +1,95 @@
+<div class="modal fade modal-md" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Ingresa Un Usuario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                            data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
+                            aria-selected="true">Usuario</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                            data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane"
+                            aria-selected="false">Contacto</button>
+                    </li>
+
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+                        tabindex="0">
+                        <form class="row g-3 ">
+                            <div class="col-12">
+                                <label for="inputNanme5" class="form-label">Nombres</label>
+                                <input required="true" [ngModel]="usuario.nombres" name="input1"
+                                    (ngModelChange)="usuario.nombres = $event" type="text"
+                                    class="form-control form-control-sm" id="inputNanme994">
+                            </div>
+                            <div class="col-12">
+                                <label for="inputEmail6" class="form-label">Usuario</label>
+                                <input required="true" type="text" name="input2" [ngModel]="usuario.usuario"
+                                    (ngModelChange)="usuario.usuario = $event" class="form-control form-control-sm"
+                                    id="inputEmail94">
+                            </div>
+                            <div class="col-12">
+                                <label for="inputPassword6" class="form-label">Password</label>
+                                <input required="true" type="password" name="input3" [ngModel]="usuario.password"
+                                    (ngModelChange)="usuario.password= $event" class="form-control form-control-sm"
+                                    id="inputPassword74">
+                            </div>
+                            <div class="col-12">
+                                <label for="inputPassword9" class="form-label">Cargo</label>
+                                <select name="admin" [(ngModel)]="usuario.cargo.administrador"
+                                    (ngModelChange)="asignarValores($event)" class="form-select"
+                                    aria-label="Default select example">
+                                    <option selected>Abre este menu</option>
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Empleado">Empleado</option>
+                                </select>
+
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                        tabindex="0">
+                        <div class="col-12">
+                            <label for="inputNanme14" class="form-label">Email</label>
+                            <input required="true" [ngModel]="usuario.contacto.email" name="input5"
+                                (ngModelChange)="usuario.contacto.email = $event" type="email"
+                                class="form-control form-control-sm" id="inputNanme54">
+                        </div>
+                        <div class="col-12">
+                            <label for="inputEmail24" class="form-label">Telefono</label>
+                            <input required="true" type="number" name="input6" [ngModel]="usuario.contacto.telefono"
+                                (ngModelChange)="usuario.contacto.telefono=  $event"
+                                class="form-control form-control-sm" id="inputEmail14">
+                        </div>
+                        <div class="col-12">
+                            <label for="inputPassword34" class="form-label">Ciudad</label>
+                            <input required="true" type="text" name="input7" [ngModel]="usuario.contacto.direccion"
+                                (ngModelChange)="usuario.contacto.direccion = $event"
+                                class="form-control form-control-sm" id="inputPassword24">
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" (click)="guardarUsuario()" data-bs-dismiss="modal" class="btn btn-primary">Guargar
+                    Producto</button>
+
+            </div>
+        </div>
+    </div>
+</div>

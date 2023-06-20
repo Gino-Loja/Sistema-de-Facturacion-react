@@ -4,15 +4,6 @@ import {
   Text,
   Button,
   Input,
-  Table,
-  TableContainer,
-  Tr,
-  Th,
-  Td,
-  Thead,
-  Tbody,
-  IconButton,
-  Tooltip,
   useDisclosure,
   Tabs,
   Tab,
@@ -24,23 +15,19 @@ import ModalEditarCategoria from '../componentes/modal/modalEditarCategoria';
 import ModalElimnar from '../componentes/modal/modalEliminar';
 import { useContext, useState, useEffect } from 'react';
 import { ContextModal } from '../context/contextModal';
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  EditIcon,
-  DeleteIcon,
-} from '@chakra-ui/icons';
-import { paginacion } from '../helpers/paginacion';
+
 import { ModalAddProducto } from '../componentes/modal/modalAddProducto';
 import ModalAddCategoria from '../componentes/modal/modalAddCategoria';
 import { ModalEditarProducto } from '../componentes/modal/modalEditarProductos';
 import { categorias, productos } from '../api/serviceApi';
+import { TablaProductos } from '../componentes/tablas/tabla-producto';
+import { TablaCategoria } from '../componentes/tablas/tabla-categoria';
 
 export function Productos() {
   const [listaProductos, setListaProductos] = useState([]);
   const [listaCategorias, setListaCategorias] = useState([]);
   const [eliminarId, setEliminarId] = useState('');
-  const [tipo, setTipo] = useState('');
+  const [tipo, setTipo] = useState(0);
 
   const obtnerTodosLosProductos = () => {
     productos.get('/').then(respuesta => {
@@ -58,7 +45,8 @@ export function Productos() {
   useEffect(() => {
     obtnerTodosLosProductos();
     obtnerTodosLasCategorias();
-  }, []);
+    console.log(listaProductos.length,"registart cambios aqui")
+  }, [listaProductos.length]);
 
   const guardarProductoEditado = (id, producto) => {
     productos.put(`actualizar?productoId=${id}`, producto).then(respuesta => {
@@ -111,31 +99,7 @@ export function Productos() {
     onClose: onCloseCategoria,
   } = useDisclosure();
   const { onOpen, modalEditar, editarCategoria } = useContext(ContextModal);
-  const CORTE = 10;
-  const CORTE_CATEGORIA = 8;
-  const [paginaActual, setPaginaActual] = useState(0);
-  const [paginaActualCategoria, setPaginaActualCategoria] = useState(0);
 
-  const paginaSiguiente = () => {
-    if (paginaActual + CORTE < listaProductos.length) {
-      setPaginaActual(paginaActual + CORTE);
-    }
-  };
-  const paginaAnterior = () => {
-    if (paginaActual > 0) {
-      setPaginaActual(paginaActual - CORTE);
-    }
-  };
-  const paginaSiguienteCategoria = () => {
-    if (paginaActualCategoria + CORTE_CATEGORIA < listaProductos.length) {
-      setPaginaActualCategoria(paginaActualCategoria + CORTE_CATEGORIA);
-    }
-  };
-  const paginaAnteriorCategoria = () => {
-    if (paginaActualCategoria > 0) {
-      setPaginaActualCategoria(paginaActualCategoria - CORTE_CATEGORIA);
-    }
-  };
   const handleEditar = producto => {
     modalEditar.onOpenEd();
     modalEditar.setModalValor(producto);
@@ -146,12 +110,12 @@ export function Productos() {
   };
   const handleEliminar = productoId => {
     onOpen();
+    console.log(productoId);
     setEliminarId(productoId);
   };
 
   return (
     <>
-      {console.log(tipo)}
       <ModalEditarCategoria
         isOpen={modalisOpenCategoria}
         onClose={modalOncloseCategoria}
@@ -215,7 +179,6 @@ export function Productos() {
                 size={'xs'}
                 w={'40%'}
               ></Input>
-              <Button size={'xs'}>Buscar</Button>
             </Flex>
           </Box>
 
@@ -240,7 +203,7 @@ export function Productos() {
                   h={'90%'}
                   paddingEnd={1}
                 >
-                  <TableContainer paddingBottom={1}>
+                  {/* <TableContainer paddingBottom={1}>
                     <Table
                       fontSize={'sm'}
                       variant="simple"
@@ -294,6 +257,7 @@ export function Productos() {
                       </Tbody>
                     </Table>
                   </TableContainer>
+
                   <Box marginTop={3}>
                     <Tooltip
                       label="Atras"
@@ -318,7 +282,13 @@ export function Productos() {
                         onClick={paginaSiguiente}
                       ></IconButton>
                     </Tooltip>
-                  </Box>
+                  </Box> */}
+
+                  <TablaProductos
+                    lista={listaProductos}
+                    editar={handleEditar}
+                    eliminar={handleEliminar}
+                  ></TablaProductos>
                 </Box>
               </TabPanel>
 
@@ -351,7 +321,7 @@ export function Productos() {
                       Anadir Categoria
                     </Button>
                   </Flex>
-                  <TableContainer paddingBottom={1}>
+                  {/* <TableContainer paddingBottom={1}>
                     <Table
                       fontSize={'sm'}
                       variant="simple"
@@ -373,7 +343,6 @@ export function Productos() {
                         ).map((ele, id) => {
                           return (
                             <Tr key={id}>
-                             
                               <Td>{ele.codigo}</Td>
                               <Td>{ele.descripcion}</Td>
                               <Td>
@@ -391,7 +360,7 @@ export function Productos() {
                                     size={'xs'}
                                     colorScheme="red"
                                     icon={<DeleteIcon />}
-                                    onClick={()=>handleEliminar(ele._id)}
+                                    onClick={() => handleEliminar(ele._id)}
                                     margin={1}
                                   ></IconButton>
                                 </Flex>
@@ -401,33 +370,12 @@ export function Productos() {
                         })}
                       </Tbody>
                     </Table>
-                  </TableContainer>
-
-                  <Box marginTop={3}>
-                    <Tooltip
-                      label="Atras"
-                      placement="left"
-                      aria-label="A tooltip"
-                    >
-                      <IconButton
-                        size={'sm'}
-                        icon={<ChevronLeftIcon />}
-                        onClick={paginaAnteriorCategoria}
-                        marginRight={1}
-                      ></IconButton>
-                    </Tooltip>
-                    <Tooltip
-                      label="Siguiente"
-                      placement="right"
-                      aria-label="A tooltip"
-                    >
-                      <IconButton
-                        size={'sm'}
-                        icon={<ChevronRightIcon />}
-                        onClick={paginaSiguienteCategoria}
-                      ></IconButton>
-                    </Tooltip>
-                  </Box>
+                  </TableContainer> */}
+                  <TablaCategoria
+                    lista={listaCategorias}
+                    editar={handleEditar2}
+                    eliminar={handleEliminar}
+                  ></TablaCategoria>
                 </Box>
               </TabPanel>
             </TabPanels>

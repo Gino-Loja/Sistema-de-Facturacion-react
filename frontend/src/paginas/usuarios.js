@@ -3,37 +3,25 @@ import {
   Flex,
   Button,
   Input,
-  Table,
-  TableContainer,
-  Tr,
-  Th,
-  Td,
-  Thead,
-  Tbody,
-  IconButton,
-  Tooltip,
+
   useDisclosure,
 } from '@chakra-ui/react';
 
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  EditIcon,
-  DeleteIcon,
-} from '@chakra-ui/icons';
+
 import { useContext, useEffect, useState } from 'react';
 import { ContextModal } from '../context/contextModal';
-import { paginacion } from '../helpers/paginacion';
+
 import { ModalAddUsuario } from '../componentes/modal/modalAddUsuario';
 import { ModalEditarUsuario } from '../componentes/modal/modalEditarUsuario';
 import { usuarios } from '../api/serviceApi';
 import ModalElimnar from '../componentes/modal/modalEliminar';
+import { TablaUsuarios } from '../componentes/tablas/tabla-usuarios';
 
 export function Usuarios() {
   const [listaUsuarios, setListaUsuarios] = useState([]);
   const [editarUsuario, setEditarUsuario] = useState({
     nombres: '',
-    usuarios: '',
+    usuario: '',
     password: '',
     cargo: {
       empleado: false,
@@ -50,7 +38,7 @@ export function Usuarios() {
   const obtnerTodosLosUsuarios = () => {
     usuarios.get('/').then(respuesta => {
       const { data } = respuesta;
-      console.log(data.usuarios)
+      console.log(data.usuarios);
       setListaUsuarios(data.usuarios);
     });
   };
@@ -59,29 +47,14 @@ export function Usuarios() {
   }, []);
 
   const { onOpen, modalEditar } = useContext(ContextModal);
-  const [paginaActual, setPaginaActual] = useState(0);
-  const CORTE = 9;
+
   const {
     isOpen: modalIsOpen,
     onOpen: modalOnOpen,
     onClose: modalOnClose,
   } = useDisclosure();
 
-  const handleEditar = usuario => {
-    modalEditar.onOpenEd();
-    setEditarUsuario(usuario);
-  };
 
-  const paginaSiguiente = () => {
-    if (paginaActual + CORTE < listaUsuarios.length) {
-      setPaginaActual(paginaActual + CORTE);
-    }
-  };
-  const paginaAnterior = () => {
-    if (paginaActual > 0) {
-      setPaginaActual(paginaActual - CORTE);
-    }
-  };
   const guardarUsuarioEditado = (id, usuario) => {
     usuarios.put(`actualizar?usuarioId=${id}`, usuario).then(respuesta => {
       obtnerTodosLosUsuarios();
@@ -156,7 +129,7 @@ export function Usuarios() {
             paddingEnd={1}
             marginBlock={3}
           >
-            <TableContainer paddingBottom={2}>
+            {/* <TableContainer paddingBottom={2}>
               <Table
                 fontSize={'sm'}
                 variant="simple"
@@ -190,7 +163,7 @@ export function Usuarios() {
                               : 'Empleado'}
                           </Td>
                           <Td>
-                            <Flex gap={3} justify={'right'}>
+                            <Flex gap={3} >
                               <IconButton
                                 size={'xs'}
                                 aria-label="Search database"
@@ -218,29 +191,24 @@ export function Usuarios() {
                   )}
                 </Tbody>
               </Table>
-            </TableContainer>
+            </TableContainer> */}
+            <TablaUsuarios
+              lista={listaUsuarios}
+              eliminar={
+                (id) => {
+                  onOpen();
+                  setEliminarId(id);
+                }
+              }
+              editar={
+                
+                usuario => {
+                  modalEditar.onOpenEd();
+                  setEditarUsuario(usuario);}
+              }
+            ></TablaUsuarios>
 
-            <Box>
-              <Tooltip label="Atras" placement="left" aria-label="A tooltip">
-                <IconButton
-                  size={'sm'}
-                  icon={<ChevronLeftIcon />}
-                  onClick={paginaAnterior}
-                  marginRight={3}
-                ></IconButton>
-              </Tooltip>
-              <Tooltip
-                label="Siguiente"
-                placement="right"
-                aria-label="A tooltip"
-              >
-                <IconButton
-                  size={'sm'}
-                  icon={<ChevronRightIcon />}
-                  onClick={paginaSiguiente}
-                ></IconButton>
-              </Tooltip>
-            </Box>
+ 
           </Box>
         </Box>
       </Box>

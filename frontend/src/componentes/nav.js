@@ -26,7 +26,6 @@ const Links = [
   'Dashboard',
   'productos',
   'Nueva Factura',
-  'Reporte de ventas',
   'Clientes',
   'Usuarios',
 ];
@@ -49,12 +48,10 @@ function NavLink({ children, botonPresionado, activado }) {
       <Link
         onClick={() => botonPresionado(children)}
         to={
-          children === 'Nueva Factura'
-            ? '/' + 'NuevaFactura'
-            : '/' + children
+          children === 'Nueva Factura' ? '/' + 'NuevaFactura' : '/' + children
         }
       >
-        {' '}
+
         {children}
       </Link>
     </Box>
@@ -72,10 +69,8 @@ export default function Nav() {
       <Box
         bg={useColorModeValue('gray.100', 'gray.900')}
         px={4}
-        h={'7vh'}
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
+  
+  
       >
         <Flex w={'100%'} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
@@ -132,21 +127,31 @@ export default function Nav() {
 
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }}>
-            <Stack as={'nav'} spacing={4}>
+            <Stack as={'nav'} spacing={8}>
               {Links.map(link => (
-                <NavLink key={link}>{link}</NavLink>
+                <NavLink
+                  key={link}
+                  activado={activeTab}
+                  botonPresionado={botonPresionado}
+                >
+                  {link}
+                </NavLink>
               ))}
             </Stack>
           </Box>
         ) : null}
       </Box>
       <ContextModalProvider>
-        <Box p={3}  w={[
-          '100%', // 0-30em
-          '100%', // 30em-48em
-          '100%', // 48em-62em
-          '100%', // 62em+
-        ]} h={'93vh'}>
+        <Box
+          p={3}
+          w={[
+            '100%', // 0-30em
+            '100%', // 30em-48em
+            '100%', // 48em-62em
+            '100%', // 62em+
+          ]}
+          h={'93vh'}
+        >
           <Outlet></Outlet>
         </Box>
       </ContextModalProvider>

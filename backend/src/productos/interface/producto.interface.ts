@@ -7,3 +7,5 @@ export interface Producto  {
     readonly cantidad: number,
     readonly categoria:string
 }
+
+

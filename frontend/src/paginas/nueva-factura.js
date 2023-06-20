@@ -46,8 +46,7 @@ function ListaUsuarios() {
 }
 export default function NuevaFactura() {
   const { onOpen, modalEditar } = useContext(ContextModal);
-  const [paginaActual, setPaginaActual] = useState(0);
-  const CORTE = 9;
+
   const {
     isOpen: modalIsOpen,
     onOpen: modalOnOpen,
@@ -56,7 +55,7 @@ export default function NuevaFactura() {
 
   return (
     <>
-      <ModalEditarUsuario></ModalEditarUsuario>
+     
       <ModalAddUsuario
         onOpen={modalOnOpen}
         onClose={modalOnClose}
@@ -164,17 +163,17 @@ export default function NuevaFactura() {
                 </Tr>
               </Thead>
               <Tbody>
-                {paginacion(ListaUsuarios, paginaActual, CORTE).map(
-                  (ele, id) => {
-                    return (
-                      <Tr key={id}>
-                        <Td>{id}</Td>
+
+       
+              
+                      <Tr >
+                        <Td></Td>
                         <Td whiteSpace="normal" maxWidth="300px">
                           ssssssssssssssssss
                         </Td>
-                        <Td>{ele.nombres}</Td>
-                        <Td>{ele.nombres}</Td>
-                        <Td>{ele.nombres}</Td>
+                        <Td></Td>
+                        <Td></Td>
+                        <Td></Td>
 
                         <Td>
                           <Flex>
@@ -188,9 +187,7 @@ export default function NuevaFactura() {
                           </Flex>
                         </Td>
                       </Tr>
-                    );
-                  }
-                )}
+                
               </Tbody>
               <Tfoot>
                 <Tr>

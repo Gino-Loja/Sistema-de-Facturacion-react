@@ -1,0 +1,1 @@
+{"version":3,"file":"producto.schemas.js","sourceRoot":"","sources":["../../../src/dashboard/schemas/producto.schemas.ts"],"names":[],"mappings":";;;AAAA,uCAA2C;AAG9B,QAAA,eAAe,GAAG,IAAI,iBAAM,CACrC;IACI,QAAQ,EAAE,MAAM;IAChB,aAAa,EAAE,MAAM;IACrB,QAAQ,EAAE,MAAM;IAChB,UAAU,EAAE,MAAM;IAClB,WAAW,EAAE,MAAM;CACtB,EACD,EAAE,UAAU,EAAE,KAAK,EAAE,CACxB,CAAA"}

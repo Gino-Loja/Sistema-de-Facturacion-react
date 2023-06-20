@@ -26,9 +26,8 @@ import { useContext, useState, useEffect } from 'react';
 import { ContextModal } from '../context/contextModal';
 import { ModalAdd } from '../componentes/modal/modalAddCliente';
 import { ModalEditarCliente } from '../componentes/modal/modalEditarCliente';
-import { paginacion } from '../helpers/paginacion';
 import { clientes } from '../api/serviceApi';
-//import { paginacion } from '../helpers/paginacion';
+import { TablaClientes } from '../componentes/tablas/tabla-clientes';
 
 export function Clientes() {
   const [listaClientes, setListaClientes] = useState([]);
@@ -46,24 +45,13 @@ export function Clientes() {
   });
   const [eliminarId, setEliminarId] = useState('');
   const { onOpen, modalEditar } = useContext(ContextModal);
-  const [paginaActual, setPaginaActual] = useState(0);
-  const CORTE = 9;
+  
   const {
     isOpen: modalIsOpen,
     onOpen: modalOnOpen,
     onClose: modalOnClose,
   } = useDisclosure();
 
-  const paginaSiguiente = () => {
-    if (paginaActual + CORTE < listaClientes.length) {
-      setPaginaActual(paginaActual + CORTE);
-    }
-  };
-  const paginaAnterior = () => {
-    if (paginaActual > 0) {
-      setPaginaActual(paginaActual - CORTE);
-    }
-  };
 
   const obtnerTodosLosClientes = () => {
     clientes.get('/').then(respuesta => {
@@ -150,7 +138,7 @@ export function Clientes() {
             padding={2}
           >
             <TableContainer paddingBottom={2}>
-              <Table
+              {/* <Table
                 fontSize={'sm'}
                 variant="simple"
                 colorScheme=""
@@ -208,30 +196,20 @@ export function Clientes() {
                     }
                   )}
                 </Tbody>
-              </Table>
+              </Table> */}
+              <TablaClientes
+                lista={listaClientes}
+                editar={cliente => {
+                  modalEditar.onOpenEd();
+                  setEditarCliente(cliente);
+                }}
+                eliminar={(cliente) => {
+                  onOpen();
+            
+                  setEliminarId(cliente);
+                }}
+              ></TablaClientes>
             </TableContainer>
-
-            <Box>
-              <Tooltip label="Atras" placement="left" aria-label="A tooltip">
-                <IconButton
-                  size={'sm'}
-                  icon={<ChevronLeftIcon />}
-                  onClick={paginaAnterior}
-                  marginRight={3}
-                ></IconButton>
-              </Tooltip>
-              <Tooltip
-                label="Siguiente"
-                placement="right"
-                aria-label="A tooltip"
-              >
-                <IconButton
-                  size={'sm'}
-                  icon={<ChevronRightIcon />}
-                  onClick={paginaSiguiente}
-                ></IconButton>
-              </Tooltip>
-            </Box>
           </Box>
         </Box>
       </Box>
