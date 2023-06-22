@@ -1,0 +1,53 @@
+<div class="container-fluid pt-1">
+    <div class="d-flex flex-row shadow-sm p-1 mb-2 bg-body-tertiary rounded">
+        <div class="p-2">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Agregar categoria
+            </button>
+        </div>
+
+    </div>
+    <div class="d-flex flex-row mb-3 shadow-sm p-3 mb-2 bg-body-tertiary rounded">
+        <div class="container">
+            <div class="card m-1">
+                <div class="card-body table-responsive">
+                    <table class="table table table-striped" datatable [dtTrigger]="dtTrigger">
+                        <thead>
+                            <tr>
+                                <th>Codigo</th>
+
+                                <th>Descripcion</th>
+
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let categoria of listaCategorias ">
+
+                                <td>{{ categoria.codigo }}</td>
+                                <td>{{ categoria.descripcion}}</td>
+                                <td>
+                                    <div class=" d-flex justify-content-around ">
+                                        <button class="btn btn-info btn-sm">
+                                            <i class="bi bi-pencil-square" data-bs-target="#exampleModal-editar"
+                                                data-bs-toggle="modal" (click)="editarCategoriaEscogida(categoria)"></i>
+                                        </button>
+                                        <button (click)="eliminarCategoria(categoria._id)"
+                                            class="btn btn-warning btn-sm">
+                                            <i class="bi bi-trash3-fill"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>

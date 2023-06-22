@@ -15,6 +15,9 @@ import { UsuarioEditarModalComponent } from './component/modal/usuario-editar-mo
 import { UsuarioAddModalComponent } from './component/modal/usuario-add-modal/usuario-add-modal.component';
 import { DashboardComponent } from './paginas/dashboard/dashboard.component';
 import { ClientesComponent } from './paginas/clientes/clientes.component';
+import { CategoriasComponent } from './paginas/categorias/categorias.component';
+import { NuevaFacturaComponent } from './paginas/facturas/nueva-factura/nueva-factura.component';
+import { VerFacturasComponent } from './paginas/facturas/ver-facturas/ver-facturas.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,11 @@ import { ClientesComponent } from './paginas/clientes/clientes.component';
     UsuarioEditarModalComponent,
     UsuarioAddModalComponent,
     DashboardComponent,
-    ClientesComponent
+    ClientesComponent,
+    CategoriasComponent,
+    NuevaFacturaComponent,
+    VerFacturasComponent,
+
     
   ],
   imports: [

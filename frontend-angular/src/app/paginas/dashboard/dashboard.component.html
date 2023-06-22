@@ -1,22 +1,21 @@
-
-
 <div class="container">
-    <div class="row">
-        <div class="col-md-6">
+    <div class="row pt-4 justify-content-around">
+        <div class="col-md-5 d-flex justify-content-around shadow p-3 mb-5 bg-body-tertiary rounded">
             <canvas baseChart width="400" height="400" [type]="'line'" [data]="lineChartData"
                 [options]="lineChartOptions" [legend]="lineChartLegend">
             </canvas>
         </div>
-        <div class="col-md-6">
-            <canvas baseChart width="400" height="400" [type]="'line'" [data]="lineChartData"
-                [options]="lineChartOptions" [legend]="lineChartLegend">
+        <div class="col-md-5 d-flex justify-content-around shadow p-3 mb-5 bg-body-tertiary rounded">
+            <canvas baseChart width="400" height="400" [type]="'pie'" [datasets]="pieChartDatasets"
+                [labels]="pieChartLabels" [options]="pieChartOptions" [plugins]="pieChartPlugins"
+                [legend]="pieChartLegend">
             </canvas>
         </div>
     </div>
-    <div class="row row justify-content-center">
-        <div class="col-md-12">
-            <canvas baseChart width="400" height="400" [type]="'line'" [data]="lineChartData"
-                [options]="lineChartOptions" [legend]="lineChartLegend">
+    <div class="row pt-4 d-flex justify-content-around">
+        <div class="col-md-5 d-flex justify-content-around shadow p-3 mb-5 bg-body-tertiary rounded ">
+            <canvas baseChart width="400" height="400" [data]="barChartData" [options]="barChartOptions"
+                [plugins]="barChartPlugins" [legend]="barChartLegend" [type]="'bar'">
             </canvas>
         </div>
     </div>
