@@ -1,59 +1,48 @@
 import { Box } from '@chakra-ui/react';
-import {
-  Stat,
-  StatLabel,
-  StatNumber,
-  StatHelpText,
-  StatArrow,
-  
-} from '@chakra-ui/react';
+
+import { BarChart, LineChart, PieLine } from '../componentes/chart';
+
 export function Dashboard(params) {
+  // useEffect(()=>{
+  //   return () => {
+  //     LineChart.destroy()
+  //   }
+  // },[])
   return (
     <Box
       display={'grid'}
       gridTemplateColumns={'repeat(3, 1fr) '}
-      gridTemplateRows={'30% 40%'}
+      gridTemplateRows={'40% 45%'}
       width={'100%'}
       h={'90vh'}
       gap={10}
     >
       <Box boxShadow={'lg'} rounded={3}>
-        Ventas realizadas{' '}
-        <Stat>
-          <StatLabel>Collected Fees</StatLabel>
-          <StatNumber>£0.00</StatNumber>
-          <StatHelpText>Feb 12 - Feb 28</StatHelpText>
-        </Stat>
+        Ventas realizadas <LineChart></LineChart>
       </Box>
       <Box boxShadow={'lg'} rounded={3}>
         Facturas emitidas
-        <Stat>
-          <StatLabel>Sent</StatLabel>
-          <StatNumber>345,670</StatNumber>
-          <StatHelpText>
-            <StatArrow type="increase" />
-            23.36%
-          </StatHelpText>
-        </Stat>
+        <BarChart></BarChart>
       </Box>
       <Box boxShadow={'lg'} rounded={3}>
         Numeros de emppleados
+        <PieLine></PieLine>
       </Box>
-      <Box
-        boxShadow={'lg'}
-        rounded={3}
 
-      >
-        sdsd
-      </Box>
       <Box
-        boxShadow={'lg'}
-        rounded={3}
-
+        gridColumnStart={1}
+        gridColumnEnd={4}
+        gap={20}
+        display={'grid'}
+        gridTemplateColumns={'repeat(2, 1fr) '}
       >
-        sdsd
+        <Box boxShadow={'lg'} rounded={3}>
+          <BarChart></BarChart>
+        </Box>
+        <Box boxShadow={'lg'} rounded={3}>
+          <LineChart></LineChart>
+        </Box>
       </Box>
-      
     </Box>
   );
 }
