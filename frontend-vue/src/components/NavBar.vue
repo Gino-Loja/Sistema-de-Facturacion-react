@@ -6,7 +6,7 @@
         /* Cambia el color del texto al color deseado */
       }
     </style> -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" >
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
         <a class="navbar-brand">S-F</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -17,7 +17,7 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
 
-              <router-link class="nav-link"  aria-current="page" to="/dashboard">Dashboard</router-link>
+              <router-link class="nav-link" aria-current="page" to="/dashboard">Dashboard</router-link>
             </li>
             <li class="nav-item">
               <router-link class="nav-link " aria-current="page" to="/productos">Productos</router-link>
@@ -38,8 +38,10 @@
                 Facturas
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item">Nueva Factura</a></li>
-                <li><a class="dropdown-item">Ver Factura</a></li>
+                <li><router-link class="nav-link " aria-current="page" to="/nueva-factura">Nueva Factura</router-link>
+                </li>
+                <li><router-link class="nav-link " aria-current="page" to="/ver-facturas">Ver Facturas</router-link>
+                </li>
 
               </ul>
             </li>
