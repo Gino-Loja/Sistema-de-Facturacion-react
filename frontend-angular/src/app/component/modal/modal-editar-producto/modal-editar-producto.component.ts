@@ -30,7 +30,7 @@ export class ModalEditarProductoComponent {
     })
   }
   guardarProductoEditado(producto:any) {
-    console.log(producto)
+
     this.addProducto.tiggerDeGuardarProducto.emit(producto)
   }
 

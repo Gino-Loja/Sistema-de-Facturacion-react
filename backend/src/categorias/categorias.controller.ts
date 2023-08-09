@@ -8,7 +8,7 @@ export class CategoriasController {
     @Get('/')
     async obtenerTodasLasCategorias(@Res() res) {
         const categoria = await this.serviciosCategoria.obtenerTodasLasCategorias();
-        console.log(categoria)
+        
         return res.status(HttpStatus.OK).json({
             categoria
         });

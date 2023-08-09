@@ -81,7 +81,7 @@ export default function Nav() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} align={'center'}>
-            <Box>Logo</Box>
+            <Box>Sistema de Facturacion</Box>
             <HStack
               as={'nav'}
               spacing={4}
@@ -110,9 +110,7 @@ export default function Nav() {
               >
                 <Avatar
                   size={'sm'}
-                  src={
-                    'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
+                  
                 />
               </MenuButton>
               <MenuList>

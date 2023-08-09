@@ -24,7 +24,7 @@ export class ModalProductoAddComponent implements OnInit {
 
   ngOnInit() {
     this.addProducto.tiggerDeCategorias.subscribe(data=>{
-      console.log(data)
+ 
       this.listaCategorias = data
     })
   }

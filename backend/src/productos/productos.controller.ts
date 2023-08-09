@@ -9,7 +9,7 @@ export class ProductosController {
     @Get('/')
     async obtenerTodosLosProductos(@Res() res) {
         const productos = await this.serviciosProductos.obtenerTodosLosProductos();
-        console.log(productos)
+       
         return res.status(HttpStatus.OK).json({
             productos
         });
@@ -35,7 +35,7 @@ export class ProductosController {
 
     @Put('/actualizar')
     async actualizarUnProducto(@Res() res, @Body() createProductDto: CrearProductoDto, @Query('productoId') productoId) {
-        console.log(createProductDto)
+  
         const actualizarProducto = await this.serviciosProductos.actualizarUnProducto(productoId, createProductDto);
         if (!actualizarProducto){
             return { estado: "producto no existe" }

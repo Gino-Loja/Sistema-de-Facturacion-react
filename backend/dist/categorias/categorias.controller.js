@@ -22,7 +22,6 @@ let CategoriasController = class CategoriasController {
     }
     async obtenerTodasLasCategorias(res) {
         const categoria = await this.serviciosCategoria.obtenerTodasLasCategorias();
-        console.log(categoria);
         return res.status(common_1.HttpStatus.OK).json({
             categoria
         });

@@ -22,7 +22,6 @@ let ProductosController = class ProductosController {
     }
     async obtenerTodosLosProductos(res) {
         const productos = await this.serviciosProductos.obtenerTodosLosProductos();
-        console.log(productos);
         return res.status(common_1.HttpStatus.OK).json({
             productos
         });
@@ -41,7 +40,6 @@ let ProductosController = class ProductosController {
         return res.status(common_1.HttpStatus.OK).json(productoEliminado);
     }
     async actualizarUnProducto(res, createProductDto, productoId) {
-        console.log(createProductDto);
         const actualizarProducto = await this.serviciosProductos.actualizarUnProducto(productoId, createProductDto);
         if (!actualizarProducto) {
             return { estado: "producto no existe" };

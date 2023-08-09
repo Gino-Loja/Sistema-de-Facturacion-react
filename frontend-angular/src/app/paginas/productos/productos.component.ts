@@ -93,7 +93,7 @@ export class ProductosComponent implements OnInit {
   actualizarProducto(id:string, producto:{}){
     this.servicioApi.ActualizarProducto(id, producto).then(
       (data)=>{
-        console.log(data)
+        
       }
     );
   }

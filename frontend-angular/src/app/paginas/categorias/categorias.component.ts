@@ -19,7 +19,7 @@ export class CategoriasComponent {
   ngOnInit(): void {
     this.servicioCategoria.ObtenerCategorias().then((data)=>{
       this.listaCategorias = data.data.categoria;
-      console.log(data.data);
+   
       this.dtTrigger.next(this.listaCategorias);
     })
 
